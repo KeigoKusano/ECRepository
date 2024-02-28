@@ -21,6 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'delivery',
+        'created_at',
+        'updated_at',
     ];
 
     /**
@@ -41,4 +44,25 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function products()   
+    {
+        return $this->hasMany(Product::class);  
+    }
+    public function product_orders()   
+    {
+        return $this->hasMany(Product_order::class);  
+    }
+    public function getByUser()
+    {
+        return $this->product_orders()->with('user');
+    }
+    public function review_user_products()   
+    {
+        return $this->hasMany(Review_user_product::class);  
+    }
+    public function getByReview_user_product()
+    {
+        return $this->review_user_products()->with('user');
+    }
+    
 }

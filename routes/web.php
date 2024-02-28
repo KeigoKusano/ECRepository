@@ -1,18 +1,60 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\Product_orderController; 
+use App\Http\Controllers\Review_user_productController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::controller(ProductController::class)->middleware(['auth'])->group(function(){
+    Route::get('/', 'index')->name('index');
+    Route::get('/mypage', 'myindex')->name('mypage');
+    Route::get('/products/create', 'create')->name('create');
+    
+    Route::get('/products/{product}', 'show')->name('show');
+    Route::get('/products/show/{product}', 'myshow')->name('myshow');
+    Route::put('/products/update/{product}', 'update')->name('update');
+    Route::put('/update', 'myupdate')->name('myupdate');
+    Route::delete('/products/delete/{product}', 'delete')->name('delete');
+    Route::get('/products/{product}/edit', 'edit')->name('edit');
+    Route::get('/myedit', 'myedit')->name('myedit');
+    Route::post('/products', 'store')->name('store');
+    //Route::post('/orders', 'storeOrder')->name('storeOrder');
 });
+
+Route::controller(Product_orderController::class)->middleware(['auth'])->group(function(){
+    Route::post('/orders/{product}','store')->name('order_store');
+    Route::post('/orders/chat/{product}','chat_store')->name('chaatorder_store');
+    Route::get('/order/chat/{user}', 'chat')->name('chat');
+    Route::post('/order/{id}','order')->name('order_order');
+    Route::get('/order', 'index')->name('order_index');
+});
+Route::controller(Review_user_productController::class)->middleware(['auth'])->group(function(){
+    Route::post('/review','store')->name('review_store');
+    //Route::get('/products/{product}', 'show')->name('show');
+});
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';
