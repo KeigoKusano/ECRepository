@@ -5,28 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Review_user_product extends Model
+class Product_tag extends Model
 {
     use HasFactory;
+    
+    protected $table = 'product_tag';
+    
     protected $fillable = [
-        'review_amount',
-        'body',
         'product_id',
-        'user_id',
+        'tag_id',
         'created_at',
         'updated_at',
     ];
-    public function product()
+    public function tag()
     {
-        return $this->belongsTo(Product::class);
-    }
-    public function user()
-    {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Tag::class);
     }
     public function getPaginateByLimit(int $limit_count = 10)
     {
         // updated_atで降順に並べたあと、limitで件数制限をかける
-        return $this::with('user')->orderBy('updated_at', 'DESC')->get();
+        return $this::with('tag')->orderBy('updated_at', 'ASC')->get();
     }
+    
 }

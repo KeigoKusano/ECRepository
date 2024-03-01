@@ -14,6 +14,7 @@
                 </h2>
             </x-slot>
         <h1>Blog Name</h1>
+        <p>--------------------------------------------------------------------</p>
         <p><br></p>
         <div class='products'>
             @foreach ($products as $product)
@@ -36,7 +37,16 @@
                         <p><br></p>
                     </div>
                     @endif
+                    <div class="tag">
+                        <h2>タグ:</h2>
+                        @foreach($product_tags as $product_tag)
+                            @if($product_tag->product_id==$product->id)
+                                <P>{{$product_tag->tag->tag}}</P>
+                            @endif
+                        @endforeach
+                    </div>
                     <a href="/products/{{ $product->id }}"><button>商品画面</button></a>
+                    <p>--------------------------------------------------------------------</p>
                     <p><br></p>
                 </div>
             @endforeach

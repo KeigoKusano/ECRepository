@@ -12,6 +12,7 @@ class Product_order extends Model
         //'delivery',
         'postage',
         'order_status',
+        'chat_roomid',
         'product_id',
         'user_id',
         'created_at',

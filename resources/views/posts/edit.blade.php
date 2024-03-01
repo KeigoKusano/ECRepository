@@ -44,8 +44,40 @@
                                     <input type="text" name="product[product_price]" placeholder="金額" value="{{ old('product.product_price') }}"/>
                                     <p class="title__error" style="color:red">{{ $errors->first('product.product_price') }}</p>
                                 </div>
-                                <input type="submit" value="保存"/>
+                                <input type="submit" value="保存ボタン"/>
                             </form>
+                            <div class="tag">
+                                    <h2>タグ:</h2>
+                                    @foreach($product_tags as $product_tag)
+                                        <form action="/tags/delete/{{$product_tag->tag_id}}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            @if($product_tag->product_id==$product->id)
+                                                <P>{{$product_tag->tag->tag}}</P>
+                                                <input type="submit" onclick="tagDelete()" value="削除ボタン"/>
+                                                <p><br></p>
+                                            @endif
+                                    @endforeach
+                                </form>
+                            </div>
+                            <form id="tagsPush" action="/tag/store/{{$product->id}}" method="POST">
+                                    @csrf
+                                    <h2>タグ追加</h2>
+                                    <input type="hidden" name="product[id]" id="product_id">
+                                    <input type="hidden" name="product_tag[product_id]" id="product_tag_pid">
+                                    <input type="text" name="tag[tag]" placeholder="タグ" value="{{ old('tag.tag') }}"/>
+                                    <p class="title__error" style="color:red">{{ $errors->first('tag.tag') }}</p>
+                                    <input type="button" onclick="tagPush()" value="追加ボタン"/>
+                            </form>   
+                            <script>
+                                function tagPush() {
+                                    'use strict'
+                                    var userId = '{{ Auth::user()->id }}';
+                                    document.getElementById('product_id').value = {{$product->id}};
+                                    document.getElementById('product_tag_pid').value = {{$product->id}};
+                                    document.getElementById(`tagsPush`).submit();
+                                }
+                            </script>
                         </div>
         </x-app-layout>
     </body>

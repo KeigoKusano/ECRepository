@@ -17,21 +17,30 @@
             <h1>ユーザー名:{{Auth::user()->name}}</h1><br>
             <h1>ユーザーID:{{Auth::user()->password}}</h1><br>
             <h1>ユーザーID:{{Auth::user()->email}}</h1><br>
-            <a href="/myedit"><button>編集画面</button></a><br>
+            <a href="/myedit"><button>編集画面ボタン</button></a>
+            <p><br>--------------------------------------------------------------------</p>
         <div class='products'>
             @foreach ($products as $product)
                 <div class='product'>
                     <h2 class='title'>{{ $product->product_name }}</h2>
                     <p class='body'>{{ $product->product_description }}</p>
                     <p class='body'>{{ $product->product_price }}</p>
+                    <div class="tag">
+                        <h2>タグ</h2>
+                        @foreach($product_tags as $product_tag)
+                            @if($product_tag->product_id==$product->id)
+                                <P>{{$product_tag->tag->tag}}</P>
+                            @endif
+                        @endforeach
+                    </div>
                     <p class='body'>{{ $product->updated_at }}</p>
-                    <p class='body'>{{ $product->user_id }}</p>
                     <p class='body'>{{ $product->user->name }}</p>
-                    <a href="/products/show/{{ $product->id }}"><button>商品画面</button></a>
+                    <a href="/products/show/{{ $product->id }}"><button>商品画面ボタン</button></a>
                     <form action="/products/delete/{{ $product->id }}" id="form_{{ $product->id }}" method="POST">
                         @csrf
                         @method('DELETE')
-                        <button type="button" onclick="deletePost({{ $product->id }})">削除</button> 
+                        <button type="button" onclick="deletePost({{ $product->id }})">削除ボタン</button> 
+                        <p>--------------------------------------------------------------------</p>
                     </form>
                     <br>
                 </div>
