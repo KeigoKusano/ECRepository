@@ -20,7 +20,7 @@
                 <label for="orders">発注項目選択</label>
                 <select id="orders" name="orders" onchange="changeAction()">
                 @if ($id == 1)
-                    <option value=1>検討中</option>
+                    <option value=1 selected>検討中</option>
                     <option value=2>発注一覧</option>
                     <option value=3>発注済み</option>
                 @elseif ($id == 2)
@@ -39,24 +39,28 @@
                     <div class='product'>
                         <p class='body'>{{ $product_order->user_id }}</p>
                         <p class='username'>{{$product_order->user->name }}</p>
-                        <a href="/order/chat/{{$product_order->product->user_id}}"><button>ダイレクトチャット</button></a>
+                        <a href="/chats/{{$product_order->chat_roomid}}"><button>ダイレクトチャットボタン</button></a>
+                        <p>--------------------------------------------------------------------</p>
                         <p><br></p>
                     </div>
-                @elseif ($id == 2 && $product_order->order_status == '発注待ち')
+                @elseif ($id == 2 && $product_order->order_status == '発注一覧')
                     <div class='product'>
                         <p class='body'>{{ $product_order->user_id }}</p>
                         <p class='username'>{{$product_order->user->name }}</p>
-                        <a href="/order/chat/{{$product_order->product->user_id}}"><button>ダイレクトチャット</button></a>
+                        <a href="/chats/{{$product_order->chat_roomid}}"><button>ダイレクトチャットボタン</button></a>
+                        <p>--------------------------------------------------------------------</p>
                         <p><br></p>
                     </div>
                 @elseif ($id == 3 && $product_order->order_status == '発注済み')
                     <div class='product'>
                         <p class='body'>{{ $product_order->user_id }}</p>
                         <p class='username'>{{$product_order->user->name }}</p>
-                        <a href="/order/chat/{{$product_order->product->user_id}}"><button>ダイレクトチャット</button></a>
+                        <a href="/chats/{{$product_order->chat_roomid}}"><button>ダイレクトチャットボタン</button></a>
+                        <p>--------------------------------------------------------------------</p>
                         <p><br></p>
                     </div>
                 @endif
+               
             @endforeach
         </div>
         <div class='paginate'>

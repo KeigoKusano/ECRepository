@@ -12,7 +12,7 @@
                 </h2>
             </x-slot>
         <h1>Blog Name</h1>
-        <form action="/products" method="POST" enctype="multipart/form-data">
+        <form action="/products/{{$count}}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="title">
                 <h2>Title</h2>
@@ -39,10 +39,25 @@
                 <input type="text" name="product[product_price]" placeholder="金額" value="{{ old('product.product_price') }}"/>
                 <p class="title__error" style="color:red">{{ $errors->first('product.product_price') }}</p>
             </div>
-            <input type="submit" value="保存"/>
+            <div class="tagPush">
+            <h2>タグ追加</h2>
+            @for($i = 0; $i < $count; $i++)
+                <input type="text" name="tag_array[]" placeholder="タグ" value="{{ old('tag.tag') }}"/>
+                <p class="title__error" style="color:red">{{ $errors->first('tag.tag') }}</p>
+                <p><br></p>
+            @endfor
+            </div>
+            <p><br></p>
+            <input type="submit" value="保存ボタン"/>
         </form>
+        <a href="/products/createPlus/{{$count}}"><button>タグ追加ボタン</button></a>
+        <p><br></p>
+        @if($count>0)
+            <a href="/products/createMinus/{{$count}}"><button>タグ削除ボタン</button></a>
+        @endif
+        <p><br></p>
         <div class="footer">
-            <a href="/">戻る</a>
+            <a href="/">戻るボタン</a>
         </div>
         </x-app-layout>
     </body>

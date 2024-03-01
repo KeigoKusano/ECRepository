@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Product;
+use App\Models\Product_tag;
+use App\Models\Tag;
 use App\Models\Review_user_product;
 use App\Http\Requests\PostRequest; // useする
 use Illuminate\Support\Facades\Auth;
@@ -12,21 +14,20 @@ use Cloudinary;
 
 class ProductController extends Controller
 {
-    public function index(Product $product ,User $user)
+    public function index(Product $product,Product_tag $product_tag)
     {
         return view('posts.index')->with(['products' => $product->getPaginateByLimit(10),
-        'users'=>$user->get()]);
-       //blade内で使う変数'posts'と設定。'posts'の中身にgetを使い、インスタンス化した$postを代入。
+        'product_tags' => $product_tag->getPaginateByLimit(10)]);
     }
-    public function myindex(Product $product ,User $user)
+    public function myindex(Product $product , Product_tag $product_tag)
     {
         return view('posts.myindex')->with(['products' => $product->getPaginateByLimit(10),
-        'users'=>$user->get()]);
-       //blade内で使う変数'posts'と設定。'posts'の中身にgetを使い、インスタンス化した$postを代入。
+        'product_tags' => $product_tag->getPaginateByLimit(10)]);
     }
-    public function edit(Product $product)
+    public function edit(Product $product, Product_tag $product_tag, Tag $tag)
     {
-        return view('posts.edit')->with(['product' => $product]);
+        return view('posts.edit')->with(['product' => $product,
+        'product_tags' => $product_tag->getPaginateByLimit(10)]);
     }
     public function myedit()
     {
@@ -34,18 +35,38 @@ class ProductController extends Controller
     }
     public function create()
     {
-        return view('posts.create');
+        $count=0;
+        return view('posts.create')->with(['count' => $count]);
     }
-    public function show(Product $product,User $user,Review_user_product $review_user_product)
+    public function create_tagPlus($count)
+    {
+        $count=$count+1;
+        return view('posts.create')->with(['count' => $count]);
+    }
+    public function create_tagMinus($count)
+    {
+        $count=$count-1;
+        return view('posts.create')->with(['count' => $count]);
+    }
+    public function show(Product $product,Review_user_product $review_user_product,Product_tag $product_tag)
     {
         return view('posts.show')->with(['product' => $product,
-        //'review_user_product'=> $review_user_product,
-        'review_user_products'=>$review_user_product->get()]);//$user->getByReview_user_product()]);
+        'review_user_products'=>$review_user_product->get(),
+        'product_tags' => $product_tag->getPaginateByLimit(10)]);//$user->getByReview_user_product()]);
     }
-    public function myshow(Product $product)
+    public function myshow(Product $product,Product_tag $product_tag)
     {
-        return view('posts.myshow')->with(['product' => $product]);
-        //'post'はbladeファイルで使う変数。中身は$postはid=1のPostインスタンス。
+        return view('posts.myshow')->with(['product' => $product,
+        'product_tags' => $product_tag->getPaginateByLimit(10)]);
+    }
+    public function store_tag(Request $request,Product $product, Tag $tag,Product_tag $product_tag)
+    {
+        $input_tag = $request['tag'];
+        $tag->fill($input_tag)->save();
+        $product_tag['tag_id']=$tag->id;
+        $input_pt = $request['product_tag'];
+        $product_tag->fill($input_pt)->save();
+        return redirect('/');
     }
     public function myupdate(Request $request, User $user)
     {
@@ -67,7 +88,58 @@ class ProductController extends Controller
         $product->fill($input_product)->save();
         return redirect('/products/show/' . $product->id);
     }
-    public function store(Request $request, Product $product)
+    public function store(Request $request, Product $product,$count,Tag $tag)
+    {
+        if($count>0){
+            $arrays=[];
+            $input_tags = $request->tag_array;
+            foreach($input_tags as $input_tag){
+                $new_tag = new Tag();
+                $new_tag->tag = $input_tag; // タグ名を設定
+                $new_tag->save();
+                $arrays[]=$new_tag->id;
+            }
+            $input_tags = $request->arrays;
+            $product['user_id']=Auth::id();
+            $input = $request['product'];
+            if($request->file('image1')){ 
+                $image_url1 = Cloudinary::upload($request->file('image1')->getRealPath())->getSecurePath();
+                $input += ['image1' => $image_url1];  //追加
+            }
+            if($request->file('image2')){ 
+                $image_url2 = Cloudinary::upload($request->file('image2')->getRealPath())->getSecurePath();
+                $input += ['image2' => $image_url2];  //追加
+            }
+            $product->fill($input)->save();
+            $product->tags()->attach($arrays);
+        }
+        else{
+            $product['user_id']=Auth::id();
+            $input = $request['product'];
+            if($request->file('image1')){ 
+                $image_url1 = Cloudinary::upload($request->file('image1')->getRealPath())->getSecurePath();
+                $input += ['image1' => $image_url1];  //追加
+            }
+            if($request->file('image2')){ 
+                $image_url2 = Cloudinary::upload($request->file('image2')->getRealPath())->getSecurePath();
+                $input += ['image2' => $image_url2];  //追加
+            }
+            $product->fill($input)->save();
+        }
+        return redirect('/products/show/' . $product->id);
+    }
+    public function delete(Product $product)
+    {
+        $product->delete();
+        return redirect('/');
+    }
+    public function delete_tag(Tag $tag)
+    {
+        Product_tag::where('tag_id', $tag->id)->delete();
+        $tag->delete();
+        return redirect('/');
+    }
+    function same_store()
     {
         $product['user_id']=Auth::id();
         $input = $request['product'];
@@ -80,11 +152,5 @@ class ProductController extends Controller
             $input += ['image2' => $image_url2];  //追加
         }
         $product->fill($input)->save();
-        return redirect('/products/show/' . $product->id);
-    }
-    public function delete(Product $product)
-    {
-        $product->delete();
-        return redirect('/');
     }
 }

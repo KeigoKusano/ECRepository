@@ -31,23 +31,36 @@
                 <h3>金額</h3>
                 <p>{{ $product->product_price }}<br></p>   
             </div>
+            <div class="tag">
+                <h2>タグ</h2>
+                @foreach($product_tags as $product_tag)
+                    @if($product_tag->product_id==$product->id)
+                        <P>{{$product_tag->tag->tag}}</P>
+                        <p><br></p>
+                    @endif
+                @endforeach
+            </div>
         </div>
-        <form id="form2_{{ $product->id }}" action="/orders/chat/{{$product->id}}" method="POST">
-            @csrf
-            <input type="hidden" name="product_order[product_id]" id="product_ids">
-            <input type="hidden" name="product_order[postage]" id="postage2">
-            <input type="hidden" name="product_order[user_id]" id="user_id2">
-            <input type="hidden" name="product_order[order_status]" id="order_status2">
-            <button type="button" onclick="buyChat({{ $product->id }})">ダイレクトチャット</button>
-        </form>
         <div class="footer">
+            <form id="form2_{{ $product->id }}" action="/chat" method="POST">
+                @csrf
+                <input type="hidden" name="product_order[product_id]" id="product_id2">
+                <input type="hidden" name="product_order[postage]" id="postage2">
+                <input type="hidden" name="product_order[user_id]" id="user_id2">
+                <input type="hidden" name="product_order[order_status]" id="order_status2">
+                <input type="hidden" name="chat_room[user1_id]" id="user1_id2">
+                <input type="hidden" name="chat_room[user2_id]" id="user2_id2">
+                <button type="button" onclick="buyChat({{ $product->id }})">ダイレクトチャットボタン</button>
+            </form>
             <form id="form_{{ $product->id }}" action="/orders/{{$product->id}}" method="POST">
                 @csrf
                 <input type="hidden" name="product_order[product_id]" id="product_id">
                 <input type="hidden" name="product_order[postage]" id="postage">
                 <input type="hidden" name="product_order[user_id]" id="user_id">
                 <input type="hidden" name="product_order[order_status]" id="order_status">
-                <button type="button" onclick="buyPost({{ $product->id }})">購入</button>
+                <input type="hidden" name="chat_room[user1_id]" id="user1_id">
+                <input type="hidden" name="chat_room[user2_id]" id="user2_id">
+                <button type="button" onclick="buyPost({{ $product->id }})">購入ボタン</button>
             </form>
             <p><br></p>
             <form id="review_form" action="/review" method="POST">
@@ -69,9 +82,9 @@
                 </div>
                 <input type="hidden" name="review_user_product[user_id]" id="user_id2">
                 <input type="hidden" name="review_user_product[product_id]" id="product_id2">
-                <button type="button" onclick="review_Form()">送信</button>
+                <button type="button" onclick="review_Form()">送信ボタン</button>
             </form>
-            <a href="/">戻る</a>
+            <a href="/">戻るボタン</a>
             @foreach ($review_user_products as $review_user_product1)
                 @if($review_user_product1->product_id==$product->id)
                 <div>
@@ -91,7 +104,10 @@
                     document.getElementById('product_id').value = {{$product->id}};
                     document.getElementById('postage').value = 200;
                     document.getElementById('user_id').value = userId;
-                    document.getElementById('order_status').value = '発注待ち';
+                    document.getElementById('order_status').value = '発注一覧';
+                    
+                    document.getElementById('user1_id').value = userId;
+                    document.getElementById('user2_id').value = {{$product->user_id}};;
                     document.getElementById(`form_${id}`).submit();
                 }
             }
@@ -103,6 +119,8 @@
                     document.getElementById('postage2').value = 200;
                     document.getElementById('user_id2').value = userId;
                     document.getElementById('order_status2').value = '検討中';
+                    document.getElementById('user1_id2').value = userId;
+                    document.getElementById('user2_id2').value = {{$product->user_id}};;
                     document.getElementById(`form2_${id}`).submit();
                 }
             }

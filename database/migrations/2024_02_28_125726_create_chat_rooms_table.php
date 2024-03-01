@@ -13,12 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('product_orders', function (Blueprint $table) {
+        Schema::create('chat_rooms', function (Blueprint $table) {
             $table->id();
-            //$table->string('delivery');
-            $table->Integer('postage');
-            $table->string('order_status');
-            $table->Integer('chat_roomid');
+            $table->foreignId('user1_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('user2_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_orders');
+        Schema::dropIfExists('chat_rooms');
     }
 };

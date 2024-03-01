@@ -31,11 +31,20 @@
                 <h3>金額</h3>
                 <p>{{ $product->product_price }}</p><br>    
             </div>
+            <div class="tag">
+                <h2>タグ</h2>
+                @foreach($product_tags as $product_tag)
+                    @if($product_tag->product_id==$product->id)
+                        <P>{{$product_tag->tag->tag}}</P>
+                        <p><br></p>
+                    @endif
+                @endforeach
+            </div>
         </div>
         <div class="footer">
-            <a href="/products/{{ $product->id }}/edit"><button>編集</button></a>
-            <a href="/products/delete/{{ $product->id }}"><button>削除</button></a>
-            <a href="/mypage">戻る</a>
+            <a href="/products/{{ $product->id }}/edit"><button>編集ボタン</button></a>
+            <a href="/products/delete/{{ $product->id }}"><button>削除ボタン</button></a>
+            <a href="/mypage">戻るボタン</a>
         </div>
         </x-app-layout>
     </body>

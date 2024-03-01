@@ -37,4 +37,7 @@ class Product extends Model
     {
         return $this->hasMany(Review_user_product::class);  
     }
+    public function tags(){
+        return $this->belongsToMany(Tag::class);
+    }
 }
