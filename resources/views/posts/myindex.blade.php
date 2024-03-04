@@ -21,10 +21,23 @@
             <p><br>--------------------------------------------------------------------</p>
         <div class='products'>
             @foreach ($products as $product)
-                <div class='product'>
+                @if($product->user_id==Auth::id())
+                    <div class='product'>
                     <h2 class='title'>{{ $product->product_name }}</h2>
                     <p class='body'>{{ $product->product_description }}</p>
                     <p class='body'>{{ $product->product_price }}</p>
+                    @if($product->image1)
+                    <div>
+                        <img src="{{ $product->image1}}" alt="画像が読み込めません。"/>
+                        <p><br></p>
+                    </div>
+                    @endif
+                    @if($product->image2)
+                    <div>
+                        <img src="{{ $product->image2}}" alt="画像が読み込めません。"/>
+                        <p><br></p>
+                    </div>
+                    @endif
                     <div class="tag">
                         <h2>タグ</h2>
                         @foreach($product_tags as $product_tag)
@@ -44,6 +57,7 @@
                     </form>
                     <br>
                 </div>
+                @endif    
             @endforeach
         </div>
         <div class='paginate'>

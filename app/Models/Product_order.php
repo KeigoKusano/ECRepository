@@ -26,9 +26,10 @@ class Product_order extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function getPaginateByLimit()//int $limit_count = 10)
+    public function getPaginateByLimit()
     {
         // updated_atで降順に並べたあと、limitで件数制限をかける
-        return $this::with('user');//->orderBy('updated_at', 'DESC')->paginate($limit_count);
+        return $this::with('product')->orderBy('updated_at', 'ASC')->get();
     }
+    
 }

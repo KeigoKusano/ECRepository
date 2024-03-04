@@ -27,12 +27,15 @@ class PostRequest extends FormRequest
             'product.product_name' => 'required|string|max:100',
             'product.product_description' => 'required|string|max:4000',
             'product.product_price' => 'required|max:100',
-            'product.image1' => 'required',
-            'product.image2' => 'required|mimes:jpeg,png,jpg,gif,svg',
+            'product.image1' => 'mimes:jpeg,png,jpg,gif,svg',
+            'product.image2' => 'mimes:jpeg,png,jpg,gif,svg',
             'user.name' => 'required|string|max:10',
             'user.password' => 'required|string|max:10',
             'user.email' => 'required|string|max:100',
-            'user_id' => 'required',
+            //'user_id' => 'required',
+            'review_user_product.body' => 'required',
+            'review_user_product.review_amount' => 'required',
+            'chat_messages.body' => 'required|string',
         ];
     }
 }

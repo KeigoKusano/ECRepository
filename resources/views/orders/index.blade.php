@@ -36,6 +36,7 @@
             </form>
             @foreach ($product_orders as $product_order)
                 @if ($id == 1 && $product_order->order_status == '検討中')
+                    @if($product_order->user_id==Auth::id())||$product_order->product->user_id==Auth::id())
                     <div class='product'>
                         <p class='body'>{{ $product_order->user_id }}</p>
                         <p class='username'>{{$product_order->user->name }}</p>
@@ -43,7 +44,9 @@
                         <p>--------------------------------------------------------------------</p>
                         <p><br></p>
                     </div>
+                    @endif
                 @elseif ($id == 2 && $product_order->order_status == '発注一覧')
+                    @if($product_order->user_id==Auth::id())||$product_order->product->user_id==Auth::id())
                     <div class='product'>
                         <p class='body'>{{ $product_order->user_id }}</p>
                         <p class='username'>{{$product_order->user->name }}</p>
@@ -51,7 +54,9 @@
                         <p>--------------------------------------------------------------------</p>
                         <p><br></p>
                     </div>
+                    @endif
                 @elseif ($id == 3 && $product_order->order_status == '発注済み')
+                    @if($product_order->user_id==Auth::id())||$product_order->product->user_id==Auth::id())
                     <div class='product'>
                         <p class='body'>{{ $product_order->user_id }}</p>
                         <p class='username'>{{$product_order->user->name }}</p>
@@ -59,6 +64,7 @@
                         <p>--------------------------------------------------------------------</p>
                         <p><br></p>
                     </div>
+                    @endif
                 @endif
                
             @endforeach

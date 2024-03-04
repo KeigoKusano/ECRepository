@@ -26,7 +26,7 @@ class Product extends Model
     }
     public function product_orders()   
     {
-        return $this->hasMany(Product_order::class);  
+        return $this->belongsTo(Product_order::class);  
     }
     public function getPaginateByLimit(int $limit_count = 10)
     {
@@ -39,5 +39,9 @@ class Product extends Model
     }
     public function tags(){
         return $this->belongsToMany(Tag::class);
+    }
+    public function getByProduct()
+    {
+        return $this->product_orders()->with('product_order');
     }
 }
