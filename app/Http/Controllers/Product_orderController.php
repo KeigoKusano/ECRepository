@@ -21,7 +21,7 @@ class Product_orderController extends Controller
     public function index(Product_order $product_order,User $user)
     {
         $id=1;
-        return view('orders.index')->with(['product_orders' =>$product_order->getPaginateByLimit(),//$user->getByUser(),
+        return view('orders.index')->with(['product_orders' => $product_order->getPaginateByLimit(),//get(),//getPaginateByLimit(),//$user->getByUser(),
         'id' => $id,'users'=> $user->get()]);
     }
     public function store(Request $request, Product_order $product_order,Chat_room $chat_room)
@@ -50,7 +50,7 @@ class Product_orderController extends Controller
     }
     public function order(Product_order $product_order,$id,User $user)
     {
-        return view('orders.index')->with(['product_orders' => $product_order->get(),
+        return view('orders.index')->with(['product_orders' => $product_order->getPaginateByLimit(),//get(),
         'id' => $id,'users'=> $user->get()]);
     }
 }

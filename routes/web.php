@@ -28,6 +28,7 @@ Route::get('/dashboard', function () {
 
 Route::controller(ProductController::class)->middleware(['auth'])->group(function(){
     Route::get('/', 'index')->name('index');
+    Route::post('/serch', 'index_serch')->name('index_serch');
     Route::get('/mypage', 'myindex')->name('mypage');
     Route::get('/products/create', 'create')->name('create');
     Route::get('/products/createPlus/{count}', 'create_tagPlus')->name('create_tagPlus');
@@ -48,7 +49,6 @@ Route::controller(ProductController::class)->middleware(['auth'])->group(functio
 Route::controller(Product_orderController::class)->middleware(['auth'])->group(function(){
     Route::post('/orders/{product}','store')->name('order_store');
     //Route::post('/orders/chat/{product}','chat_store')->name('chatorder_store');
-    
     Route::get('/chats/{chat_room}', 'chat')->name('chat');//
     //Route::get('/order/chat/', 'chat')->name('chat2');//
     Route::post('/chat/message/{chat_room}', 'message_store')->name('chat_store');
@@ -67,3 +67,4 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+

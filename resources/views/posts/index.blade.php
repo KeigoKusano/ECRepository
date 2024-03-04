@@ -16,15 +16,22 @@
         <h1>Blog Name</h1>
         <p>--------------------------------------------------------------------</p>
         <p><br></p>
+        <form action="/serch" method="POST">
+            @csrf
+            <h2>検索</h2>
+            <input type="text" name="serch"  placeholder="検索" />
+            <input type="submit" value="検索ボタン"/>
+        </form>
+        <p>--------------------------------------------------------------------</p>
         <div class='products'>
             @foreach ($products as $product)
-                <div class='product'>
-                    <h2 class='title'>{{ $product->product_name }}</h2>
-                    <p class='body'>{{ $product->product_description }}</p>
-                    <p class='body'>{{ $product->product_price }}</p>
-                    <p class='body'>{{ $product->updated_at }}</p>
-                    <p class='body'>{{ $product->user_id }}</p>
-                    <p class='body'>{{ $product->user->name }}<br></p>
+                @if($product->user_id!=Auth::id())
+                    <div class='product'>
+                    <h2 class='title'>商品名：{{ $product->product_name }}</h2>
+                    <p class='body'>説明：{{ $product->product_description }}</p>
+                    <p class='body'>{{ $product->product_price }}円</p>
+                    <p class='body'>更新日時{{ $product->updated_at }}</p>
+                    <p class='body'>ユーザー名：{{ $product->user->name }}<br></p>
                     @if($product->image1)
                     <div>
                         <img src="{{ $product->image1}}" alt="画像が読み込めません。"/>
@@ -49,6 +56,7 @@
                     <p>--------------------------------------------------------------------</p>
                     <p><br></p>
                 </div>
+                @endif
             @endforeach
         </div>
         <div class='paginate'>

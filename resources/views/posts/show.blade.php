@@ -80,8 +80,8 @@
                         <option value=5>5</option>
                     </select>
                 </div>
-                <input type="hidden" name="review_user_product[user_id]" id="user_id2">
-                <input type="hidden" name="review_user_product[product_id]" id="product_id2">
+                <input type="hidden" name="review_user_product[user_id]" id="user_id3">
+                <input type="hidden" name="review_user_product[product_id]" id="product_id3">
                 <button type="button" onclick="review_Form()">送信ボタン</button>
             </form>
             <a href="/">戻るボタン</a>
@@ -126,8 +126,8 @@
             }
             function review_Form(){
                 var userId = '{{ Auth::user()->id }}';
-                document.getElementById('product_id2').value = {{$product->id}};
-                document.getElementById('user_id2').value = userId;
+                document.getElementById('product_id3').value = {{$product->id}};
+                document.getElementById('user_id3').value = userId;
                 document.getElementById(`review_form`).submit();
             }
         </script>
