@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Product;
+use App\Models\Product_order;
 use App\Models\Product_tag;
 use App\Models\Tag;
 use App\Models\Review_user_product;
@@ -18,6 +19,11 @@ class ProductController extends Controller
     {
         return view('posts.index')->with(['products' => $product->getPaginateByLimit(10),
         'product_tags' => $product_tag->getPaginateByLimit(10)]);
+    }
+    public function youindex(Product $product,Product_tag $product_tag,$youruser)
+    {
+        return view('posts.youindex')->with(['products' => $product->getPaginateByLimit(10),
+        'product_tags' => $product_tag->getPaginateByLimit(10),'youruser'=>$youruser]);
     }
     public function index_serch(Request $request,Product_tag $product_tag)
     {
@@ -60,16 +66,38 @@ class ProductController extends Controller
         $count=$count-1;
         return view('posts.create')->with(['count' => $count]);
     }
-    public function show(Product $product,Review_user_product $review_user_product,Product_tag $product_tag)
+    public function show(Product $product,Review_user_product $review_user_product,
+        Product_tag $product_tag,Product_order $product_order)
     {
+        $flag=0;
+        foreach ($review_user_product->get() as $review_user_product1){
+            if($review_user_product1->product_id==$product->id&&$review_user_product1->user_id==Auth::id()){
+                $flag=1;
+                break;
+            }
+        }
+        $chatFlag=0;
+        $buyFlag=0;
+        foreach ($product_order->get() as $product_order1){
+            if($product_order1->product_id==$product->id&&
+                $product_order1->order_status=='検討中'&&$product_order1->user_id==Auth::id()){
+                $chatFlag=1;
+            }
+            elseif($product_order1->product_id==$product->id&&
+                $product_order1->order_status=='発注一覧'&&$product_order1->user_id==Auth::id()){
+                $buyFlag=1;   
+            }
+            elseif($buyFlag==1) break;
+        }
         return view('posts.show')->with(['product' => $product,
         'review_user_products'=>$review_user_product->get(),
-        'product_tags' => $product_tag->getPaginateByLimit(10)]);//$user->getByReview_user_product()]);
+        'product_tags' => $product_tag->getPaginateByLimit(10),
+        'flag'=>$flag,'chatFlag'=>$chatFlag,'buyFlag'=>$buyFlag]);//$user->getByReview_user_product()]);
     }
-    public function myshow(Product $product,Product_tag $product_tag)
+    public function myshow(Product $product,Product_tag $product_tag,Review_user_product $review_user_product)
     {
         return view('posts.myshow')->with(['product' => $product,
-        'product_tags' => $product_tag->getPaginateByLimit(10)]);
+        'product_tags' => $product_tag->getPaginateByLimit(10),'review_user_products'=>$review_user_product->get()]);
     }
     public function store_tag(Request $request,Product $product, Tag $tag,Product_tag $product_tag)
     {
@@ -173,19 +201,5 @@ class ProductController extends Controller
         Product_tag::where('tag_id', $tag->id)->delete();
         $tag->delete();
         return redirect('/');
-    }
-    function same_store()
-    {
-        $product['user_id']=Auth::id();
-        $input = $request['product'];
-        if($request->file('image1')){ 
-            $image_url1 = Cloudinary::upload($request->file('image1')->getRealPath())->getSecurePath();
-            $input += ['image1' => $image_url1];  //追加
-        }
-        if($request->file('image2')){ 
-            $image_url2 = Cloudinary::upload($request->file('image2')->getRealPath())->getSecurePath();
-            $input += ['image2' => $image_url2];  //追加
-        }
-        $product->fill($input)->save();
     }
 }

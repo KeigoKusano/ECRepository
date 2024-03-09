@@ -23,9 +23,9 @@
                     @elseif($chat_message->user_id!=Auth::user()->id)
                          <p>相手：</p>
                     @endif
-                    <p>{{$chat_message->updated_at}}</p>
-                    <p>{{$chat_message->user->name}}</p>
-                    <p>{{$chat_message->message_text}}<br></p>
+                    <p>更新日時：{{$chat_message->updated_at}}</p>
+                    <p>ユーザー名：{{$chat_message->user->name}}</p>
+                    <p>メッセージ：{{$chat_message->message_text}}<br></p>
                     <p>--------------------------------------------------------------------<br></p>
                 @endif
             @endforeach
@@ -38,7 +38,7 @@
                     <p class="title__error" style="color:red">{{ $errors->first('chat_message.message_text') }}</p>
                     <input type="hidden" name="chat_message[user_id]" id="sender_id">
                     <input type="hidden" name="chat_message[chat_room_id]" id="chat_room_id">
-                    <button type="button" onclick="chatMessage()">送信</button>
+                    <button type="button" onclick="chatMessage()">送信ボタン</button>
                 </div>
             </form>
             <script>
