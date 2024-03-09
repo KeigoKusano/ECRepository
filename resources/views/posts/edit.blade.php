@@ -21,7 +21,7 @@
                                 @method('PUT')
                                 <div class="title">
                                     <h2>商品名</h2>
-                                    <input type="text" name="product[product_name]" placeholder="名前" value="{{ old('product.product_name') }}"/>
+                                    <input type="text" name="product[product_name]" placeholder="名前" value="{{ $product->product_name }}"/>
                                     <p class="title__error" style="color:red">{{ $errors->first('product.product_name') }}</p>
                                 </div>
                                 <div class="image">
@@ -36,15 +36,17 @@
                                 </div>
                                 <div class="body">
                                     <h2>説明</h2>
-                                    <textarea name="product[product_description]" placeholder="説明文" value="{{ old('product.product_description') }}"></textarea>
+                                    <textarea name="product[product_description]" placeholder="説明文">
+                                        {{ $product->product_description }}
+                                    </textarea>
                                     <p class="title__error" style="color:red">{{ $errors->first('product.product_description') }}</p>
                                 </div>
                                 <div class="title">
-                                    <h2>金額</h2>
-                                    <input type="text" name="product[product_price]" placeholder="金額" value="{{ old('product.product_price') }}"/>
+                                    <h2>税抜き金額</h2>
+                                    <input type="text" name="product[product_price]" placeholder="金額" value="{{ $product->product_price }}"/>
                                     <p class="title__error" style="color:red">{{ $errors->first('product.product_price') }}</p>
                                 </div>
-                                <input type="submit" value="保存ボタン"/>
+                                <input class="bg-current" type="submit" value="保存ボタン"/>
                             </form>
                             <div class="tag">
                                     <h2>タグ:</h2>

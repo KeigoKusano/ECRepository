@@ -15,33 +15,32 @@
                 </h2>
             </x-slot>
         <h1 class="title">
-            {{ $product->product_name }}
+            商品名：{{ $product->product_name }}
         </h1>
        
         <div class="content">
             <div class="content__post">
-                <h3>ユーザー名</h3>
-                <p>{{ $product->user_id }}</p><br>   
+                <p>ユーザー名：{{ $product->user->name }}</p><br>   
             </div>
             <div class="content__post">
                 <h3>説明</h3>
-                <p>{{ $product->product_description }}</p><br>
+                <p>{{ $product->product_description }}</p>
+                <p><br></p>
             </div>
             <div class="content__post">
-                <h3>金額</h3>
-                <p>{{ $product->product_price }}<br></p>   
+                <p>税抜き金額：{{ $product->product_price }}円<br></p>   
             </div>
             <div class="tag">
-                <h2>タグ</h2>
                 @foreach($product_tags as $product_tag)
                     @if($product_tag->product_id==$product->id)
-                        <P>{{$product_tag->tag->tag}}</P>
-                        <p><br></p>
+                        <P>タグ：{{$product_tag->tag->tag}}</P>
                     @endif
                 @endforeach
             </div>
         </div>
         <div class="footer">
+            <a href="/youindex/{{$product->user_id}}"><button>ユーザー一覧ボタン</button></a>
+            @if($chatFlag==0&&$buyFlag==0)
             <form id="form2_{{ $product->id }}" action="/chat" method="POST">
                 @csrf
                 <input type="hidden" name="product_order[product_id]" id="product_id2">
@@ -52,6 +51,8 @@
                 <input type="hidden" name="chat_room[user2_id]" id="user2_id2">
                 <button type="button" onclick="buyChat({{ $product->id }})">ダイレクトチャットボタン</button>
             </form>
+            @endif
+            @if($buyFlag==0)
             <form id="form_{{ $product->id }}" action="/orders/{{$product->id}}" method="POST">
                 @csrf
                 <input type="hidden" name="product_order[product_id]" id="product_id">
@@ -62,7 +63,9 @@
                 <input type="hidden" name="chat_room[user2_id]" id="user2_id">
                 <button type="button" onclick="buyPost({{ $product->id }})">購入ボタン</button>
             </form>
+            @endif
             <p><br></p>
+            @if($flag==0)
             <form id="review_form" action="/review" method="POST">
                 @csrf
                 <div class="body">
@@ -84,14 +87,16 @@
                 <input type="hidden" name="review_user_product[product_id]" id="product_id3">
                 <button type="button" onclick="review_Form()">送信ボタン</button>
             </form>
-            <a href="/">戻るボタン</a>
+            @endif
+            <a href="/"><button>戻るボタン</button></a>
+            <p><br></p>
             @foreach ($review_user_products as $review_user_product1)
                 @if($review_user_product1->product_id==$product->id)
                 <div>
-                <p><br>{{$review_user_product1->updated_at}}</p>
-                <p>{{$review_user_product1->user->name}}</p>   
-                <p>{{$review_user_product1->body}}</p>
-                <p>{{$review_user_product1->review_amount}}</p>
+                <p><br>更新日時：{{$review_user_product1->updated_at}}</p>
+                <p>ユーザー名：{{$review_user_product1->user->name}}</p>   
+                <p>レビュー内容：{{$review_user_product1->body}}</p>
+                <p>評価：{{$review_user_product1->review_amount}}</p>
                 </div>
                 @endif
             @endforeach

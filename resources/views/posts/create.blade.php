@@ -15,7 +15,7 @@
         <form action="/products/{{$count}}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="title">
-                <h2>Title</h2>
+                <h2>商品名</h2>
                 <input type="text" name="product[product_name]" placeholder="名前" value="{{ old('product.product_name') }}"/>
                 <p class="title__error" style="color:red">{{ $errors->first('product.product_name') }}</p>
             </div>
@@ -35,7 +35,7 @@
                 <p class="title__error" style="color:red">{{ $errors->first('product.product_description') }}</p>
             </div>
             <div class="title">
-                <h2>Title</h2>
+                <h2>金額</h2>
                 <input type="text" name="product[product_price]" placeholder="金額" value="{{ old('product.product_price') }}"/>
                 <p class="title__error" style="color:red">{{ $errors->first('product.product_price') }}</p>
             </div>
@@ -48,7 +48,7 @@
             @endfor
             </div>
             <p><br></p>
-            <input type="submit" value="保存ボタン"/>
+            <input class="text-black" type="submit" value="保存ボタン"/>
         </form>
         <a href="/products/createPlus/{{$count}}"><button>タグ追加ボタン</button></a>
         <p><br></p>

@@ -29,8 +29,8 @@
                     <div class='product'>
                     <h2 class='title'>商品名：{{ $product->product_name }}</h2>
                     <p class='body'>説明：{{ $product->product_description }}</p>
-                    <p class='body'>{{ $product->product_price }}円</p>
-                    <p class='body'>更新日時{{ $product->updated_at }}</p>
+                    <p class='body'>税抜き金額：{{ $product->product_price }}円</p>
+                    <p class='body'>更新日時:{{ $product->updated_at }}</p>
                     <p class='body'>ユーザー名：{{ $product->user->name }}<br></p>
                     @if($product->image1)
                     <div>
@@ -45,22 +45,18 @@
                     </div>
                     @endif
                     <div class="tag">
-                        <h2>タグ:</h2>
                         @foreach($product_tags as $product_tag)
                             @if($product_tag->product_id==$product->id)
-                                <P>{{$product_tag->tag->tag}}</P>
+                                <P>タグ：{{$product_tag->tag->tag}}</P>
                             @endif
                         @endforeach
                     </div>
-                    <a href="/products/{{ $product->id }}"><button>商品画面</button></a>
+                    <a class="text-black" href="/products/{{ $product->id }}"><button>商品画面ボタン</button></a>
                     <p>--------------------------------------------------------------------</p>
                     <p><br></p>
                 </div>
                 @endif
             @endforeach
-        </div>
-        <div class='paginate'>
-           
         </div>
         </x-app-layout>
     </body>

@@ -28,6 +28,7 @@ Route::get('/dashboard', function () {
 
 Route::controller(ProductController::class)->middleware(['auth'])->group(function(){
     Route::get('/', 'index')->name('index');
+    Route::get('/youindex/{youruser}', 'youindex')->name('youindex');
     Route::post('/serch', 'index_serch')->name('index_serch');
     Route::get('/mypage', 'myindex')->name('mypage');
     Route::get('/products/create', 'create')->name('create');

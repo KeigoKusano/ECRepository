@@ -10,21 +10,21 @@
         <x-app-layout>
             <x-slot name="header">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('MyIndex') }}
+                    {{ __('ユーザー一覧') }}
                 </h2>
             </x-slot>
-            <h1>ユーザーID:{{Auth::id()}}</h1><br>
-            <h1>ユーザー名:{{Auth::user()->name}}</h1>
-            <h1>メール：{{Auth::user()->email}}</h1>
-            <p><br></p>
-            <p><br>--------------------------------------------------------------------</p>
+        <h1>Blog Name</h1>
+        <p>--------------------------------------------------------------------</p>
+        <p><br></p>
         <div class='products'>
             @foreach ($products as $product)
-                @if($product->user_id==Auth::id())
+                @if($product->user_id==$youruser)
                     <div class='product'>
                     <h2 class='title'>商品名：{{ $product->product_name }}</h2>
                     <p class='body'>説明：{{ $product->product_description }}</p>
-                    <p class='body'>税抜き金額：{{ $product->product_price }}</p>
+                    <p class='body'>税抜き金額：{{ $product->product_price }}円</p>
+                    <p class='body'>更新日時:{{ $product->updated_at }}</p>
+                    <p class='body'>ユーザー名：{{ $product->user->name }}<br></p>
                     @if($product->image1)
                     <div>
                         <img src="{{ $product->image1}}" alt="画像が読み込めません。"/>
@@ -44,28 +44,13 @@
                             @endif
                         @endforeach
                     </div>
-                    <p class='body'>更新日時：{{ $product->updated_at }}</p>
-                    <p class='body'>ユーザー名：{{ $product->user->name }}</p>
-                    <a href="/products/show/{{ $product->id }}"><button>商品画面ボタン</button></a>
-                    <form action="/products/delete/{{ $product->id }}" id="form_{{ $product->id }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="button" onclick="deletePost({{ $product->id }})">削除ボタン</button> 
-                        <p>--------------------------------------------------------------------</p>
-                    </form>
-                    <br>
+                    <a class="text-black" href="/products/{{ $product->id }}"><button>商品画面ボタン</button></a>
+                    <p>--------------------------------------------------------------------</p>
+                    <p><br></p>
                 </div>
-                @endif    
+                @endif
             @endforeach
         </div>
-        <script>
-            function deletePost(id) {
-                'use strict'
-                if (confirm('削除すると復元できません。\n本当に削除しますか？')) {
-                    document.getElementById(`form_${id}`).submit();
-                }
-            }
-        </script>
         </x-app-layout>
     </body>
 </html>
