@@ -17,7 +17,6 @@
         <h1 class="title">
             商品名：{{ $product->product_name }}
         </h1>
-       
         <div class="content">
             <div class="content__post">
                 <p>ユーザー名：{{ $product->user->name }}</p><br>   
@@ -39,7 +38,7 @@
             </div>
         </div>
         <div class="footer">
-            <a href="/youindex/{{$product->user_id}}"><button>ユーザー一覧ボタン</button></a>
+            <a href="/youindex/{{$product->user_id}}"><button class="bg-gray-500">ユーザー一覧ボタン</button></a>
             @if($chatFlag==0&&$buyFlag==0)
             <form id="form2_{{ $product->id }}" action="/chat" method="POST">
                 @csrf
@@ -49,7 +48,8 @@
                 <input type="hidden" name="product_order[order_status]" id="order_status2">
                 <input type="hidden" name="chat_room[user1_id]" id="user1_id2">
                 <input type="hidden" name="chat_room[user2_id]" id="user2_id2">
-                <button type="button" onclick="buyChat({{ $product->id }})">ダイレクトチャットボタン</button>
+                <button class="bg-gray-500" type="button" onclick="buyChat({{ $product->id }})">
+                    ダイレクトチャットボタン</button>
             </form>
             @endif
             @if($buyFlag==0)
@@ -61,7 +61,7 @@
                 <input type="hidden" name="product_order[order_status]" id="order_status">
                 <input type="hidden" name="chat_room[user1_id]" id="user1_id">
                 <input type="hidden" name="chat_room[user2_id]" id="user2_id">
-                <button type="button" onclick="buyPost({{ $product->id }})">購入ボタン</button>
+                <button class="bg-gray-500" type="button" onclick="buyPost({{ $product->id }})">購入ボタン</button>
             </form>
             @endif
             <p><br></p>
@@ -85,10 +85,10 @@
                 </div>
                 <input type="hidden" name="review_user_product[user_id]" id="user_id3">
                 <input type="hidden" name="review_user_product[product_id]" id="product_id3">
-                <button type="button" onclick="review_Form()">送信ボタン</button>
+                <button class="bg-gray-500" type="button" onclick="review_Form()">送信ボタン</button>
             </form>
             @endif
-            <a href="/"><button>戻るボタン</button></a>
+            <a href="/"><button class="bg-gray-500">戻るボタン</button></a>
             <p><br></p>
             @foreach ($review_user_products as $review_user_product1)
                 @if($review_user_product1->product_id==$product->id)

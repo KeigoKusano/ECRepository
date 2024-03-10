@@ -8,16 +8,19 @@
                     <a href="{{ route('dashboard') }}">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
-                    <a href="{{ route('index') }}" class="text-black">
+                    <a href="{{ route('index') }}">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
-                    <a href="{{ route('create') }}" class="text-black">
+                    <a href="{{ route('create') }}">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
-                    <a href="{{ route('mypage') }}" class="text-black">
+                    <a href="{{ route('mypage') }}">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
-                    <a href="{{ route('order_index') }}" class="text-black">
+                    <a href="{{ route('order_index') }}">
+                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                    </a>
+                    <a href="{{ route('history') }}">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
                 </div>
@@ -38,6 +41,9 @@
                     </x-nav-link>
                     <x-nav-link :href="route('order_index')" :active="request()->routeIs('order_index')">
                         {{ __('取引画面') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('history')" :active="request()->routeIs('history')">
+                        {{ __('履歴') }}
                     </x-nav-link>
                 </div>
             </div>

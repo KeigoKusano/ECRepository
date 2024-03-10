@@ -48,16 +48,16 @@
             @endfor
             </div>
             <p><br></p>
-            <input class="text-black" type="submit" value="保存ボタン"/>
+            <input class="bg-gray-500" type="submit" value="保存ボタン"/>
         </form>
-        <a href="/products/createPlus/{{$count}}"><button>タグ追加ボタン</button></a>
+        <a href="/products/createPlus/{{$count}}"><button class="bg-gray-500">タグ追加ボタン</button></a>
         <p><br></p>
         @if($count>0)
-            <a href="/products/createMinus/{{$count}}"><button>タグ削除ボタン</button></a>
+            <a href="/products/createMinus/{{$count}}"><button class="bg-gray-500">タグ削除ボタン</button></a>
         @endif
         <p><br></p>
         <div class="footer">
-            <a href="/">戻るボタン</a>
+            <a href="/"><button class="bg-gray-500">戻るボタン</button></a>
         </div>
         </x-app-layout>
     </body>

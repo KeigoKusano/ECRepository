@@ -34,7 +34,7 @@
                                     <input type="text" name="user[email]" placeholder="e-mail" value="{{ old('user.email') }}"/>
                                     <p class="title__error" style="color:red">{{ $errors->first('user.email') }}</p>
                                 </div>
-                                <input type="submit" value="保存"/>
+                                <input class="bg-gray-500" type="submit" value="保存"/>
                             </form>
                         </div>
         </x-app-layout>

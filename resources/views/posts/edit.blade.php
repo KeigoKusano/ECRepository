@@ -46,7 +46,7 @@
                                     <input type="text" name="product[product_price]" placeholder="金額" value="{{ $product->product_price }}"/>
                                     <p class="title__error" style="color:red">{{ $errors->first('product.product_price') }}</p>
                                 </div>
-                                <input class="bg-current" type="submit" value="保存ボタン"/>
+                                <input class="bg-gray-500" type="submit" value="保存ボタン"/>
                             </form>
                             <div class="tag">
                                     <h2>タグ:</h2>
@@ -56,7 +56,7 @@
                                             @method('DELETE')
                                             @if($product_tag->product_id==$product->id)
                                                 <P>{{$product_tag->tag->tag}}</P>
-                                                <input type="submit" onclick="tagDelete()" value="削除ボタン"/>
+                                                <input class="bg-gray-500" type="submit" onclick="tagDelete()" value="削除ボタン"/>
                                                 <p><br></p>
                                             @endif
                                     @endforeach
@@ -69,7 +69,7 @@
                                     <input type="hidden" name="product_tag[product_id]" id="product_tag_pid">
                                     <input type="text" name="tag[tag]" placeholder="タグ" value="{{ old('tag.tag') }}"/>
                                     <p class="title__error" style="color:red">{{ $errors->first('tag.tag') }}</p>
-                                    <input type="button" onclick="tagPush()" value="追加ボタン"/>
+                                    <input class="bg-gray-500" type="button" onclick="tagPush()" value="追加ボタン"/>
                             </form>   
                             <script>
                                 function tagPush() {

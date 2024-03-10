@@ -15,10 +15,10 @@ use Cloudinary;
 
 class ProductController extends Controller
 {
-    public function index(Product $product,Product_tag $product_tag)
+    public function index(Product $product,Product_tag $product_tag,Product_order $product_order)
     {
         return view('posts.index')->with(['products' => $product->getPaginateByLimit(10),
-        'product_tags' => $product_tag->getPaginateByLimit(10)]);
+        'product_tags' => $product_tag->getPaginateByLimit(10),'product_orders'=>$product_order->get()]);
     }
     public function youindex(Product $product,Product_tag $product_tag,$youruser)
     {

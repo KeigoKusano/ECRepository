@@ -20,13 +20,18 @@
             @csrf
             <h2>検索</h2>
             <input type="text" name="serch"  placeholder="検索" />
-            <input type="submit" value="検索ボタン"/>
+            <input class="bg-gray-500" type="submit" value="検索ボタン"/>
         </form>
         <p>--------------------------------------------------------------------</p>
         <div class='products'>
             @foreach ($products as $product)
                 @if($product->user_id!=Auth::id())
                     <div class='product'>
+                    @foreach($product_orders as $product_order)
+                        @if($product->id==$product_order->product_id&&$product_order->order_status=='発注一覧')
+                            <P class="text-orange-700">売り切れ</P>
+                        @endif
+                    @endforeach
                     <h2 class='title'>商品名：{{ $product->product_name }}</h2>
                     <p class='body'>説明：{{ $product->product_description }}</p>
                     <p class='body'>税抜き金額：{{ $product->product_price }}円</p>
@@ -51,7 +56,7 @@
                             @endif
                         @endforeach
                     </div>
-                    <a class="text-black" href="/products/{{ $product->id }}"><button>商品画面ボタン</button></a>
+                    <a class="bg-gray-500" href="/products/{{ $product->id }}"><button>商品画面ボタン</button></a>
                     <p>--------------------------------------------------------------------</p>
                     <p><br></p>
                 </div>
