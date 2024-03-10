@@ -44,7 +44,8 @@
                         @elseif(Auth::id()==$product_order->product->user_id)
                             <p class='username'>ユーザー名：{{$product_order->user->name }}</p>
                         @endif
-                        <a href="/chats/{{$product_order->chat_roomid}}"><button>ダイレクトチャットボタン</button></a>
+                        <a href="/chats/{{$product_order->chat_roomid}}"><button class="bg-gray-500">
+                            ダイレクトチャットボタン</button></a>
                         <p>--------------------------------------------------------------------</p>
                         <p><br></p>
                     </div>
@@ -70,7 +71,8 @@
                                     {{ $product_order->user_id }})">発注OKボタン</button>
                             </form>
                         @endif
-                        <a href="/chats/{{$product_order->chat_roomid}}"><button>ダイレクトチャットボタン</button></a>
+                        <a href="/chats/{{$product_order->chat_roomid}}"><button class="bg-gray-500">
+                            ダイレクトチャットボタン</button></a>
                         <p>--------------------------------------------------------------------</p>
                         <p><br></p>
                     </div>
@@ -84,7 +86,8 @@
                         @elseif(Auth::id()==$product_order->product->user_id)
                             <p class='username'>ユーザー名：{{$product_order->user->name }}</p>
                         @endif
-                        <a href="/chats/{{$product_order->chat_roomid}}"><button>ダイレクトチャットボタン</button></a>
+                        <a href="/chats/{{$product_order->chat_roomid}}"><button class="bg-gray-500">
+                            ダイレクトチャットボタン</button></a>
                         <p>--------------------------------------------------------------------</p>
                         <p><br></p>
                     </div>

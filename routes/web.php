@@ -49,9 +49,8 @@ Route::controller(ProductController::class)->middleware(['auth'])->group(functio
 
 Route::controller(Product_orderController::class)->middleware(['auth'])->group(function(){
     Route::post('/orders/{product}','store')->name('order_store');
-    //Route::post('/orders/chat/{product}','chat_store')->name('chatorder_store');
-    Route::get('/chats/{chat_room}', 'chat')->name('chat');//
-    //Route::get('/order/chat/', 'chat')->name('chat2');//
+    Route::get('/history', 'history')->name('history');
+    Route::get('/chats/{chat_room}', 'chat')->name('chat');
     Route::post('/chat/message/{chat_room}', 'message_store')->name('chat_store');
     Route::post('/order/{id}','order')->name('order_order');
     Route::get('/order', 'index')->name('order_index');

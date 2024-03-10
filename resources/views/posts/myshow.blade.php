@@ -42,8 +42,8 @@
             </div>
         </div>
         <div class="footer">
-            <a href="/products/{{ $product->id }}/edit"><button>編集ボタン</button></a>
-            <a href="/products/delete/{{ $product->id }}"><button>削除ボタン</button></a>
+            <a href="/products/{{ $product->id }}/edit"><button class="bg-gray-500">編集ボタン</button></a>
+            <a href="/products/delete/{{ $product->id }}"><button class="bg-gray-500">削除ボタン</button></a>
             <a href="/mypage">戻るボタン</a>
         </div>
         <p><br></p>

@@ -46,11 +46,12 @@
                     </div>
                     <p class='body'>更新日時：{{ $product->updated_at }}</p>
                     <p class='body'>ユーザー名：{{ $product->user->name }}</p>
-                    <a href="/products/show/{{ $product->id }}"><button>商品画面ボタン</button></a>
+                    <a href="/products/show/{{ $product->id }}"><button class="bg-gray-500">商品画面ボタン</button></a>
                     <form action="/products/delete/{{ $product->id }}" id="form_{{ $product->id }}" method="POST">
                         @csrf
                         @method('DELETE')
-                        <button type="button" onclick="deletePost({{ $product->id }})">削除ボタン</button> 
+                        <button class="bg-gray-500" type="button" onclick="deletePost({{ $product->id }})">
+                            削除ボタン</button> 
                         <p>--------------------------------------------------------------------</p>
                     </form>
                     <br>

@@ -38,7 +38,7 @@
                     <p class="title__error" style="color:red">{{ $errors->first('chat_message.message_text') }}</p>
                     <input type="hidden" name="chat_message[user_id]" id="sender_id">
                     <input type="hidden" name="chat_message[chat_room_id]" id="chat_room_id">
-                    <button type="button" onclick="chatMessage()">送信ボタン</button>
+                    <button class="bg-gray-500" type="button" onclick="chatMessage()">送信ボタン</button>
                 </div>
             </form>
             <script>

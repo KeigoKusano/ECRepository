@@ -53,4 +53,8 @@ class Product_orderController extends Controller
         return view('orders.index')->with(['product_orders' => $product_order->getPaginateByLimit(),//get(),
         'id' => $id,'users'=> $user->get()]);
     }
+    public function history(Product_order $product_order)
+    {
+        return view('orders.history')->with(['product_orders' => $product_order->get()]);
+    }
 }

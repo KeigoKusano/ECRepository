@@ -44,7 +44,7 @@
                             @endif
                         @endforeach
                     </div>
-                    <a class="text-black" href="/products/{{ $product->id }}"><button>商品画面ボタン</button></a>
+                    <a class="bg-gray-500" href="/products/{{ $product->id }}"><button>商品画面ボタン</button></a>
                     <p>--------------------------------------------------------------------</p>
                     <p><br></p>
                 </div>
