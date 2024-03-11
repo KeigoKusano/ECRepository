@@ -22,7 +22,7 @@
                         {{$product_order->product->product_name}}  日時：{{$product_order->updated_at}}</p>
                     @endif
                     @if($product_order->user_id==Auth::id())
-                        <p>消費：{{$product_order->product->product_price}}円</p>
+                        <p>消費：{{$product_order->product->product_price}}+200円</p>
                         <p>--------------------------------------------------------------------</p>
                     @elseif($product_order->product->user_id==Auth::id())
                         <p>利益：{{$product_order->product->product_price}}円</p>

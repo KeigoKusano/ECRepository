@@ -31,7 +31,7 @@
             </div>
             <div class="body">
                 <h2>説明</h2>
-                <textarea name="product[product_description]" placeholder="説明文" value="{{ old('product.product_description') }}"></textarea>
+                <textarea name="product[product_description]" placeholder="説明文">{{ old('product.product_description') }}</textarea>
                 <p class="title__error" style="color:red">{{ $errors->first('product.product_description') }}</p>
             </div>
             <div class="title">
@@ -47,6 +47,10 @@
                 <p><br></p>
             @endfor
             </div>
+            <input type="hidden" name="chat_message[message_text]" value="a">
+            <input type="hidden" name="serch" value="a">
+            <input type="hidden" name="review_user_product[review_amount]" value="a">
+            <input type="hidden" name="review_user_product[body]" value=1>
             <p><br></p>
             <input class="bg-gray-500" type="submit" value="保存ボタン"/>
         </form>

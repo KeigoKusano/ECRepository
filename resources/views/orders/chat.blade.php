@@ -39,6 +39,13 @@
                     <input type="hidden" name="chat_message[user_id]" id="sender_id">
                     <input type="hidden" name="chat_message[chat_room_id]" id="chat_room_id">
                     <button class="bg-gray-500" type="button" onclick="chatMessage()">送信ボタン</button>
+                    
+                    <input type="hidden" name="product[product_name]" id="product_name">
+                    <input type="hidden" name="product[product_description]" id="product_description">
+                    <input type="hidden" name="product[product_price]" id="product_price">
+                    <input type="hidden" name="serch" value="a">
+                    <input type="hidden" name="review_user_product[review_amount]" value="a">
+                    <input type="hidden" name="review_user_product[body]" value=1>
                 </div>
             </form>
             <script>
@@ -47,6 +54,10 @@
                 var userId = '{{ Auth::user()->id }}';
                 document.getElementById('sender_id').value = userId;
                 document.getElementById('chat_room_id').value = {{$chat_room->id}};
+                
+                document.getElementById('product_name').value = 'a';
+                document.getElementById('product_description').value = 'a';
+                document.getElementById('product_price').value = 1;
                 document.getElementById(`chatForm`).submit();
             }
         </script>

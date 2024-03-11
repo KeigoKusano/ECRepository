@@ -58,18 +58,24 @@
                             <p class='username'>ユーザー名：{{$product_order->product->user->name }}</p>
                         @elseif(Auth::id()==$product_order->product->user_id)
                             <p class='username'>ユーザー名：{{$product_order->user->name }}</p>
-                            <form id="form_buy" 
-                                action="/orders/{{$product_order->product_id}}" method="POST">
-                                @csrf
-                                <input type="hidden" name="product_order[product_id]" id="product_id">
-                                <input type="hidden" name="product_order[postage]" id="postage">
-                                <input type="hidden" name="product_order[user_id]" id="user_id">
-                                <input type="hidden" name="product_order[order_status]" id="order_status">
-                                <input type="hidden" name="chat_room[user1_id]" id="user1_id">
-                                <input type="hidden" name="chat_room[user2_id]" id="user2_id">
-                                <button type="button" onclick="buyPost({{ $product_order->product_id }},
-                                    {{ $product_order->user_id }})">発注OKボタン</button>
-                            </form>
+                            @foreach($array as $a)
+                                @if($a==$product_order->id)
+                                    <form id="form_buy" 
+                                        action="/orders/{{$product_order->product_id}}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="product_order[product_id]" id="product_id">
+                                        <input type="hidden" name="product_order[postage]" id="postage">
+                                        <input type="hidden" name="product_order[user_id]" id="user_id">
+                                        <input type="hidden" name="product_order[order_status]" id="order_status">
+                                        <input type="hidden" name="chat_room[user1_id]" id="user1_id">
+                                        <input type="hidden" name="chat_room[user2_id]" id="user2_id">
+                                        <button class="bg-gray-500" type="button" onclick="buyPost({{ $product_order->product_id }},
+                                        {{ $product_order->user_id }})">発注OKボタン</button>
+                                    </form>
+                                    @break;
+                                @endif
+                            @endforeach
+                            
                         @endif
                         <a href="/chats/{{$product_order->chat_roomid}}"><button class="bg-gray-500">
                             ダイレクトチャットボタン</button></a>
