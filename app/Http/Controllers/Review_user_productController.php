@@ -10,7 +10,7 @@ use App\Http\Requests\PostRequest;
 
 class Review_user_productController extends Controller
 {
-    public function store(Request $request, Review_user_product $review_user_product)
+    public function store(PostRequest $request, Review_user_product $review_user_product)
     {
         //$review_user_product['user_id']=Auth::id();
         $input = $request['review_user_product'];

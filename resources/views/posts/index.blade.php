@@ -20,7 +20,13 @@
             @csrf
             <h2>検索</h2>
             <input type="text" name="serch"  placeholder="検索" />
+            <p class="title__error" style="color:red">{{ $errors->first('serch') }}</p>
             <input class="bg-gray-500" type="submit" value="検索ボタン"/>
+            
+            <input type="hidden" name="product[product_name]" value="a">
+            <input type="hidden" name="product[product_description]" value="a">
+            <input type="hidden" name="product[product_price]" value=1>
+            <input type="hidden" name="chat_message[message_text]" value="a">
         </form>
         <p>--------------------------------------------------------------------</p>
         <div class='products'>

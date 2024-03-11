@@ -41,7 +41,7 @@ Route::controller(ProductController::class)->middleware(['auth'])->group(functio
     Route::delete('/products/delete/{product}', 'delete')->name('delete');
     Route::delete('/tags/delete/{tag}', 'delete_tag')->name('delete_tag');
     Route::get('/products/{product}/edit', 'edit')->name('edit');
-    Route::get('/myedit', 'myedit')->name('myedit');
+    //Route::get('/myedit', 'myedit')->name('myedit');
     Route::post('/products/{count}', 'store')->name('store');
     Route::post('/tag/store/{product}', 'store_tag')->name('store_tag');
     //Route::post('/orders', 'storeOrder')->name('storeOrder');

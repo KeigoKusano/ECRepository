@@ -46,6 +46,10 @@
                                     <input type="text" name="product[product_price]" placeholder="金額" value="{{ $product->product_price }}"/>
                                     <p class="title__error" style="color:red">{{ $errors->first('product.product_price') }}</p>
                                 </div>
+                                <input type="hidden" name="chat_message[message_text]" value="a">
+                                <input type="hidden" name="serch" value="a">
+                                <input type="hidden" name="review_user_product[review_amount]" value="a">
+                                <input type="hidden" name="review_user_product[body]" value=1>
                                 <input class="bg-gray-500" type="submit" value="保存ボタン"/>
                             </form>
                             <div class="tag">

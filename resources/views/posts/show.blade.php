@@ -82,10 +82,17 @@
                         <option value=4>4</option>
                         <option value=5>5</option>
                     </select>
+                    <p class="title__error" style="color:red">{{ $errors->first('review_user_product.review_amount') }}</p>
                 </div>
                 <input type="hidden" name="review_user_product[user_id]" id="user_id3">
                 <input type="hidden" name="review_user_product[product_id]" id="product_id3">
                 <button class="bg-gray-500" type="button" onclick="review_Form()">送信ボタン</button>
+                
+                <input type="hidden" name="chat_message[message_text]" value="a">
+                <input type="hidden" name="product[product_name]" value="a">
+                <input type="hidden" name="product[product_description]" value="a">
+                <input type="hidden" name="product[product_price]" value=1>
+                <input type="hidden" name="serch" value="a">
             </form>
             @endif
             <a href="/"><button class="bg-gray-500">戻るボタン</button></a>

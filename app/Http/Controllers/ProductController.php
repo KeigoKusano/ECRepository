@@ -25,7 +25,7 @@ class ProductController extends Controller
         return view('posts.youindex')->with(['products' => $product->getPaginateByLimit(10),
         'product_tags' => $product_tag->getPaginateByLimit(10),'youruser'=>$youruser]);
     }
-    public function index_serch(Request $request,Product_tag $product_tag)
+    public function index_serch(PostRequest $request,Product_tag $product_tag)
     {
         $keyword = $request->input("serch");
         $query = Product::query();
@@ -101,19 +101,31 @@ class ProductController extends Controller
     }
     public function store_tag(Request $request,Product $product, Tag $tag,Product_tag $product_tag)
     {
-        $bool=0;
+        //$bool=0;
         $tag_tag=Tag::where('tag', $request['tag'])->first();//$request->tag[tag]);
-        foreach($tag->get() as $t){
+        /*foreach($tag->get() as $t){
             if($t->tag==$tag_tag->tag){
+                dd(1);
                 $product_tag['tag_id']=$t->id;
                 $input_pt = $request['product_tag'];
                 $product_tag->fill($input_pt)->save();
                 $bool=1;
                 break;
             }
+        }*/
+        if($tag_tag){
+            //dd(1);
+            $product_tag['tag_id']=$t->id;
+            $input_pt = $request['product_tag'];
+            $product_tag->fill($input_pt)->save();
         }
-        if($bool==0){
+        else{
             $input_tag = $request['tag'];
+            $input_tag2 = $request->tag['tag'];
+            if($input_tag2==null){
+                //dd(1);
+                return redirect('/products/'.$product->id.'/edit');
+            }
             $tag->fill($input_tag)->save();
             $product_tag['tag_id']=$tag->id;
             $input_pt = $request['product_tag'];
@@ -141,40 +153,55 @@ class ProductController extends Controller
         $product->fill($input_product)->save();
         return redirect('/products/show/' . $product->id);
     }
-    public function store(Request $request, Product $product,$count,Tag $tag)
+    public function store(PostRequest $request, Product $product,$count,Tag $tag)
     {
         if($count>0){
             $arrays=[];
             $input_tags = $request->tag_array;
-            //$tag_tag=Tag::where('tag', $request['tag'])->first();//$request->tag[tag]);
-            foreach($input_tags as $input_t){
-                $count=0;
-                foreach($tag->get() as $t){
-                    if($t->tag==$input_t){
-                        $arrays[]=$t->id;
-                        $count=1;
-                        break;
+            $input_tags = array_filter($input_tags);
+            if(empty($input_tags)){
+                $product['user_id']=Auth::id();
+                $input = $request['product'];
+                if($request->file('image1')){ 
+                    $image_url1 = Cloudinary::upload($request->file('image1')->getRealPath())->getSecurePath();
+                    $input += ['image1' => $image_url1];  //追加
+                }
+                if($request->file('image2')){ 
+                    $image_url2 = Cloudinary::upload($request->file('image2')->getRealPath())->getSecurePath();
+                    $input += ['image2' => $image_url2];  //追加
+                }
+                $product->fill($input)->save();
+            }
+            else {
+                foreach($input_tags as $input_t){
+                    $count=0;
+                    foreach($tag->get() as $t){
+                        if($t->tag==$input_t){
+                            $arrays[]=$t->id;
+                            $count=1;
+                            break;
+                        }
+                    }
+                    if($count==0){
+                        $new_tag = new Tag();
+                        $new_tag->tag = $input_t; // タグ名を設定
+                        $new_tag->save();
+                        $arrays[]=$new_tag->id;
                     }
                 }
-                if($count==0){
-                    $new_tag = new Tag();
-                    $new_tag->tag = $input_t; // タグ名を設定
-                    $new_tag->save();
-                    $arrays[]=$new_tag->id;
+                $product['user_id']=Auth::id();
+                $input = $request['product'];
+                if($request->file('image1')){ 
+                    $image_url1 = Cloudinary::upload($request->file('image1')->getRealPath())->getSecurePath();
+                    $input += ['image1' => $image_url1];  //追加
                 }
+                if($request->file('image2')){ 
+                    $image_url2 = Cloudinary::upload($request->file('image2')->getRealPath())->getSecurePath();
+                    $input += ['image2' => $image_url2];  //追加
+                }
+                $product->fill($input)->save();
+                $product->tags()->attach($arrays);    
             }
-            $product['user_id']=Auth::id();
-            $input = $request['product'];
-            if($request->file('image1')){ 
-                $image_url1 = Cloudinary::upload($request->file('image1')->getRealPath())->getSecurePath();
-                $input += ['image1' => $image_url1];  //追加
-            }
-            if($request->file('image2')){ 
-                $image_url2 = Cloudinary::upload($request->file('image2')->getRealPath())->getSecurePath();
-                $input += ['image2' => $image_url2];  //追加
-            }
-            $product->fill($input)->save();
-            $product->tags()->attach($arrays);
         }
         else{
             $product['user_id']=Auth::id();
