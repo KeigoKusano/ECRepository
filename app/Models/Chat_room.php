@@ -13,15 +13,19 @@ class Chat_room extends Model
     protected $fillable = [
         'user1_id',
         'user2_id',
+        'reciver_id',
         'created_at',
         'updated_at',
     ];
-    public function users(){
-    //生徒は多数の科目を履修。
+    /*public function users(){
         return $this->hasMany(User::class);
-    }
+    }*/
     public function chat_message()
     {
-        return $this->belongsTo(Chat_message::class);
+        return $this->hasMany(Chat_message::class);
+    }
+    public function product_orders()
+    {
+        return $this->hasMany(Product_order::class);
     }
 }

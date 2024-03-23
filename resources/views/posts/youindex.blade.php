@@ -13,8 +13,7 @@
                     {{ __('ユーザー一覧') }}
                 </h2>
             </x-slot>
-        <h1>Blog Name</h1>
-        <p>--------------------------------------------------------------------</p>
+
         <p><br></p>
         <div class='products'>
             @foreach ($products as $product)

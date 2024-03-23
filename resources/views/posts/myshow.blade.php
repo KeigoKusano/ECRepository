@@ -11,7 +11,7 @@
         <x-app-layout>
             <x-slot name="header">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('Create') }}
+                    {{ __('商品画面') }}
                 </h2>
             </x-slot>
             
@@ -43,8 +43,13 @@
         </div>
         <div class="footer">
             <a href="/products/{{ $product->id }}/edit"><button class="bg-gray-500">編集ボタン</button></a>
-            <a href="/products/delete/{{ $product->id }}"><button class="bg-gray-500">削除ボタン</button></a>
-            <a href="/mypage">戻るボタン</a>
+            <form action="/products/status/{{ $product->id }}" method="POST">
+                @csrf
+                @method('PUT')
+                <input type="hidden" name="product[status]" value="削除">
+                <button class="bg-gray-500" type="submit">削除ボタン</button> 
+            </form>
+            <a href="/mypage"><button class="bg-gray-500">戻るボタン</button></a>
         </div>
         <p><br></p>
             @foreach ($review_user_products as $review_user_product1)

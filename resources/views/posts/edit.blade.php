@@ -11,7 +11,7 @@
         <x-app-layout>
             <x-slot name="header">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('Edit') }}
+                    {{ __('編集画面') }}
                 </h2>
             </x-slot>
                     <h1 class="title">編集画面</h1>
@@ -50,12 +50,13 @@
                                 <input type="hidden" name="serch" value="a">
                                 <input type="hidden" name="review_user_product[review_amount]" value="a">
                                 <input type="hidden" name="review_user_product[body]" value=1>
+                                <input type="hidden" name="user[delivery]" value="a">
                                 <input class="bg-gray-500" type="submit" value="保存ボタン"/>
                             </form>
                             <div class="tag">
                                     <h2>タグ:</h2>
                                     @foreach($product_tags as $product_tag)
-                                        <form action="/tags/delete/{{$product_tag->tag_id}}" method="POST">
+                                        <form action="/tags/delete/{{$product->id}}/{{$product_tag->tag_id}}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             @if($product_tag->product_id==$product->id)
@@ -63,8 +64,8 @@
                                                 <input class="bg-gray-500" type="submit" onclick="tagDelete()" value="削除ボタン"/>
                                                 <p><br></p>
                                             @endif
+                                        </form>
                                     @endforeach
-                                </form>
                             </div>
                             <form id="tagsPush" action="/tag/store/{{$product->id}}" method="POST">
                                     @csrf
@@ -74,6 +75,15 @@
                                     <input type="text" name="tag[tag]" placeholder="タグ" value="{{ old('tag.tag') }}"/>
                                     <p class="title__error" style="color:red">{{ $errors->first('tag.tag') }}</p>
                                     <input class="bg-gray-500" type="button" onclick="tagPush()" value="追加ボタン"/>
+                                    
+                                    <input type="hidden" name="product[product_name]" value="a">
+                                    <input type="hidden" name="product[product_description]" value="a">
+                                    <input type="hidden" name="product[product_price]" value=1>
+                                    <input type="hidden" name="chat_message[message_text]" value="a">
+                                    <input type="hidden" name="serch" value="a">
+                                    <input type="hidden" name="review_user_product[review_amount]" value="a">
+                                    <input type="hidden" name="review_user_product[body]" value=1>
+                                    <input type="hidden" name="user[delivery]" value="a">
                             </form>   
                             <script>
                                 function tagPush() {

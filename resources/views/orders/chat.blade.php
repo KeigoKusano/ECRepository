@@ -10,10 +10,9 @@
         <x-app-layout>
             <x-slot name="header">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('取引画面') }}
+                    {{ __('チャット') }}
                 </h2>
             </x-slot>
-        <h1>Chat</h1>
         <p><br></p>
         <div class='chat'>
             @foreach($chat_messages as $chat_message)
@@ -46,6 +45,8 @@
                     <input type="hidden" name="serch" value="a">
                     <input type="hidden" name="review_user_product[review_amount]" value="a">
                     <input type="hidden" name="review_user_product[body]" value=1>
+                    <input type="hidden" name="user[delivery]" value="a">
+                    
                 </div>
             </form>
             <script>
@@ -58,6 +59,7 @@
                 document.getElementById('product_name').value = 'a';
                 document.getElementById('product_description').value = 'a';
                 document.getElementById('product_price').value = 1;
+               
                 document.getElementById(`chatForm`).submit();
             }
         </script>

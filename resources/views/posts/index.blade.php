@@ -10,16 +10,15 @@
         <x-app-layout>
             <x-slot name="header">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('Index') }}
+                    {{ __('商品閲覧画面') }}
                 </h2>
             </x-slot>
-        <h1>Blog Name</h1>
-        <p>--------------------------------------------------------------------</p>
+       
         <p><br></p>
         <form action="/serch" method="POST">
             @csrf
             <h2>検索</h2>
-            <input type="text" name="serch"  placeholder="検索" />
+            <input type="text" name="serch"  placeholder="検索" value={{$serch}}>
             <p class="title__error" style="color:red">{{ $errors->first('serch') }}</p>
             <input class="bg-gray-500" type="submit" value="検索ボタン"/>
             
@@ -27,11 +26,14 @@
             <input type="hidden" name="product[product_description]" value="a">
             <input type="hidden" name="product[product_price]" value=1>
             <input type="hidden" name="chat_message[message_text]" value="a">
+            <input type="hidden" name="review_user_product[review_amount]" value="a">
+            <input type="hidden" name="review_user_product[body]" value=1>
+            <input type="hidden" name="user[delivery]" value="a">
         </form>
         <p>--------------------------------------------------------------------</p>
         <div class='products'>
             @foreach ($products as $product)
-                @if($product->user_id!=Auth::id())
+                @if($product->user_id!=Auth::id()&&$product->status!='削除')
                     <div class='product'>
                     @foreach($product_orders as $product_order)
                         @if($product->id==$product_order->product_id&&$product_order->order_status=='発注一覧')

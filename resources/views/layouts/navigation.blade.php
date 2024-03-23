@@ -24,22 +24,32 @@
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
                 </div>
-
+                
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     <x-nav-link :href="route('index')" :active="request()->routeIs('index')">
-                        {{ __('Index') }}
+                        {{ __('商品閲覧画面') }}
                     </x-nav-link>
                     <x-nav-link :href="route('create')" :active="request()->routeIs('create')">
-                        {{ __('Create') }}
+                        {{ __('商品登録') }}
                     </x-nav-link>
                     <x-nav-link :href="route('mypage')" :active="request()->routeIs('mypage')">
-                        {{ __('MyPage') }}
+                        {{ __('マイページ') }}
                     </x-nav-link>
                     <x-nav-link :href="route('order_index')" :active="request()->routeIs('order_index')">
+                        @php
+                            $product_orders =  App\Models\Product_order::all();
+                        @endphp
+                        @foreach ($product_orders as $product_order)
+                            @if(($product_order->user_id==Auth::id()||$product_order->product->user_id==Auth::id())&&
+                            $product_order->chat_room->reciver_id==Auth::id())
+                                {{ __('新着') }}
+                                @break
+                             @endif
+                        @endforeach
                         {{ __('取引画面') }}
                     </x-nav-link>
                     <x-nav-link :href="route('history')" :active="request()->routeIs('history')">

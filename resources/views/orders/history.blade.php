@@ -16,15 +16,16 @@
         <div class='products'>
             @foreach ($product_orders as $product_order)
                 <div class='product'>
-                    @if($product_order->user_id==Auth::id()||$product_order->product->user_id==Auth::id())
-                        <p>{{$product_order->order_status}}  購入者：{{$product_order->user->name}}  販売者：
+                    @if($product_order->order_status=='発注済み'&&($product_order->user_id==Auth::id()||
+                        $product_order->product->user_id==Auth::id()))
+                        <p>{{$product_order->order_status}} &nbsp;  購入者：{{$product_order->user->name}} &nbsp; 販売者：
                         {{$product_order->product->user->name}}  商品名：
                         {{$product_order->product->product_name}}  日時：{{$product_order->updated_at}}</p>
                     @endif
-                    @if($product_order->user_id==Auth::id())
+                    @if($product_order->order_status=='発注済み'&&$product_order->user_id==Auth::id())
                         <p>消費：{{$product_order->product->product_price}}+200円</p>
                         <p>--------------------------------------------------------------------</p>
-                    @elseif($product_order->product->user_id==Auth::id())
+                    @elseif($product_order->order_status=='発注済み'&&$product_order->product->user_id==Auth::id())
                         <p>利益：{{$product_order->product->product_price}}円</p>
                         <p>--------------------------------------------------------------------</p>
                     @endif

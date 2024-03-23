@@ -11,7 +11,7 @@
         <x-app-layout>
             <x-slot name="header">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('Create') }}
+                    {{ __('商品画面') }}
                 </h2>
             </x-slot>
         <h1 class="title">
@@ -48,19 +48,22 @@
                 <input type="hidden" name="product_order[order_status]" id="order_status2">
                 <input type="hidden" name="chat_room[user1_id]" id="user1_id2">
                 <input type="hidden" name="chat_room[user2_id]" id="user2_id2">
+                <input type="hidden" name="chat_room[reciver_id]" id="reciver_id2">
                 <button class="bg-gray-500" type="button" onclick="buyChat({{ $product->id }})">
                     ダイレクトチャットボタン</button>
             </form>
             @endif
-            @if($buyFlag==0)
+            @if($buyFlag==0&&$product->status=='正常')
             <form id="form_{{ $product->id }}" action="/orders/{{$product->id}}" method="POST">
                 @csrf
                 <input type="hidden" name="product_order[product_id]" id="product_id">
                 <input type="hidden" name="product_order[postage]" id="postage">
                 <input type="hidden" name="product_order[user_id]" id="user_id">
                 <input type="hidden" name="product_order[order_status]" id="order_status">
+                <input type="hidden" name="product[status]" value="売る切れ">
                 <input type="hidden" name="chat_room[user1_id]" id="user1_id">
                 <input type="hidden" name="chat_room[user2_id]" id="user2_id">
+                <input type="hidden" name="chat_room[reciver_id]" id="reciver_id">
                 <button class="bg-gray-500" type="button" onclick="buyPost({{ $product->id }})">購入ボタン</button>
             </form>
             @endif
@@ -93,6 +96,7 @@
                 <input type="hidden" name="product[product_description]" value="a">
                 <input type="hidden" name="product[product_price]" value=1>
                 <input type="hidden" name="serch" value="a">
+                <input type="hidden" name="user[delivery]" value="a">
             </form>
             @endif
             <a href="/"><button class="bg-gray-500">戻るボタン</button></a>
@@ -119,7 +123,8 @@
                     document.getElementById('order_status').value = '発注一覧';
                     
                     document.getElementById('user1_id').value = userId;
-                    document.getElementById('user2_id').value = {{$product->user_id}};;
+                    document.getElementById('user2_id').value = {{$product->user_id}};
+                    document.getElementById('reciver_id').value = 0;
                     document.getElementById(`form_${id}`).submit();
                 }
             }
@@ -132,7 +137,8 @@
                     document.getElementById('user_id2').value = userId;
                     document.getElementById('order_status2').value = '検討中';
                     document.getElementById('user1_id2').value = userId;
-                    document.getElementById('user2_id2').value = {{$product->user_id}};;
+                    document.getElementById('user2_id2').value = {{$product->user_id}};
+                    document.getElementById('reciver_id2').value = 0;
                     document.getElementById(`form2_${id}`).submit();
                 }
             }

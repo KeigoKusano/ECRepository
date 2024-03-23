@@ -21,6 +21,10 @@ class Product_tag extends Model
     {
         return $this->belongsTo(Tag::class);
     }
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
     public function getPaginateByLimit(int $limit_count = 10)
     {
         // updated_atで降順に並べたあと、limitで件数制限をかける

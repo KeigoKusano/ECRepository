@@ -60,10 +60,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Review_user_product::class);  
     }
-    public function chat_room()
+    /*public function chat_room()
     {
         return $this->belongsTo(Chat_room::class);
-    }
+    }*/
     public function getByChat()
     {
         return $this->chat_room()->with('user');

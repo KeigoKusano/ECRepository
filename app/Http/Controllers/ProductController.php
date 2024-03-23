@@ -17,15 +17,16 @@ class ProductController extends Controller
 {
     public function index(Product $product,Product_tag $product_tag,Product_order $product_order)
     {
+        $serch="";
         return view('posts.index')->with(['products' => $product->getPaginateByLimit(10),
-        'product_tags' => $product_tag->getPaginateByLimit(10),'product_orders'=>$product_order->get()]);
+        'product_tags' => $product_tag->getPaginateByLimit(10),'product_orders'=>$product_order->get(),'serch'=>$serch]);
     }
     public function youindex(Product $product,Product_tag $product_tag,$youruser)
     {
         return view('posts.youindex')->with(['products' => $product->getPaginateByLimit(10),
         'product_tags' => $product_tag->getPaginateByLimit(10),'youruser'=>$youruser]);
     }
-    public function index_serch(PostRequest $request,Product_tag $product_tag)
+    public function index_serch(PostRequest $request,Product_tag $product_tag,Product_order $product_order)
     {
         $keyword = $request->input("serch");
         $query = Product::query();
@@ -35,7 +36,7 @@ class ProductController extends Controller
         orWhere('product_description','like',"%{$request->serch}%")->get();
         
         return view('posts.index')->with(['products' =>$articles,
-        'product_tags' => $product_tag->getPaginateByLimit(10)]);
+        'product_tags' => $product_tag->getPaginateByLimit(10),'product_orders'=>$product_order->get(),'serch'=>$keyword]);
     }
     public function myindex(Product $product , Product_tag $product_tag)
     {
@@ -99,23 +100,11 @@ class ProductController extends Controller
         return view('posts.myshow')->with(['product' => $product,
         'product_tags' => $product_tag->getPaginateByLimit(10),'review_user_products'=>$review_user_product->get()]);
     }
-    public function store_tag(Request $request,Product $product, Tag $tag,Product_tag $product_tag)
+    public function store_tag(PostRequest $request,Product $product, Tag $tag,Product_tag $product_tag)
     {
-        //$bool=0;
         $tag_tag=Tag::where('tag', $request['tag'])->first();//$request->tag[tag]);
-        /*foreach($tag->get() as $t){
-            if($t->tag==$tag_tag->tag){
-                dd(1);
-                $product_tag['tag_id']=$t->id;
-                $input_pt = $request['product_tag'];
-                $product_tag->fill($input_pt)->save();
-                $bool=1;
-                break;
-            }
-        }*/
         if($tag_tag){
-            //dd(1);
-            $product_tag['tag_id']=$t->id;
+            $product_tag['tag_id']=$tag_tag->id;
             $input_pt = $request['product_tag'];
             $product_tag->fill($input_pt)->save();
         }
@@ -123,7 +112,6 @@ class ProductController extends Controller
             $input_tag = $request['tag'];
             $input_tag2 = $request->tag['tag'];
             if($input_tag2==null){
-                //dd(1);
                 return redirect('/products/'.$product->id.'/edit');
             }
             $tag->fill($input_tag)->save();
@@ -131,15 +119,9 @@ class ProductController extends Controller
             $input_pt = $request['product_tag'];
             $product_tag->fill($input_pt)->save();
         }
-        return redirect('/');
+        return redirect('/products/'.$product->id.'/edit');
     }
-    public function myupdate(Request $request, User $user)
-    {
-        $input = $request['user'];
-        Auth::user()->fill($input)->save();
-        return redirect('/');
-    }
-    public function update(Request $request, Product $product)
+    public function update(PostRequest $request, Product $product)
     {
         $input_product = $request['product'];
         if($request->file('image1')){ 
@@ -152,6 +134,12 @@ class ProductController extends Controller
         }
         $product->fill($input_product)->save();
         return redirect('/products/show/' . $product->id);
+    }
+    public function myupdate(PostRequest $request, User $user)
+    {
+        $input_user = $request['user'];
+        $user->fill($input_user)->save();
+        return redirect('/mypage');
     }
     public function store(PostRequest $request, Product $product,$count,Tag $tag)
     {
@@ -218,15 +206,46 @@ class ProductController extends Controller
         }
         return redirect('/products/show/' . $product->id);
     }
-    public function delete(Product $product)
+    public function status(Request $request,Product $product)
     {
-        $product->delete();
-        return redirect('/');
+        $input = $request['product'];
+        $product->fill($input)->save();
+        return redirect('/mypage');
     }
-    public function delete_tag(Tag $tag)
+    /*public function delete(Product $product)
     {
-        Product_tag::where('tag_id', $tag->id)->delete();
-        $tag->delete();
-        return redirect('/');
+        Product_tag::where('product_id', $product->id)->delete();
+        $product->delete();
+        return redirect('/mypage');
+    }*/
+    public function delete_tag(Product $product,Tag $tag,Product_tag $product_tags)
+    {
+        $product_tags=Product_tag::where('tag_id', $tag->id)->get();
+        foreach($product_tags as $p){
+            if($product->id==$p->product_id){
+                //dd(1);
+                $p->delete();  
+                break;
+            }
+        }
+        //Product::where('id',$product_tag->id)->delete();          
+        //Product_tag::where('tag_id', $tag->id)->delete();
+        $flag=0;
+        foreach($product_tags as $p){
+            if($p->tag_id==$tag->id&&$p->product_id!=$product->id){
+                $flag=1;
+                break;
+            }
+        }
+        if($flag==0){
+            $tag->delete();
+        }
+        return redirect('/products/'.$product->id.'/edit');
     }
 }
+/*public function myupdate(Request $request, User $user)
+    {
+        $input = $request['user'];
+        Auth::user()->fill($input)->save();
+        return redirect('/');
+    }*/
