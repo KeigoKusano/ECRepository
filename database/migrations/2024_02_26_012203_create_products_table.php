@@ -20,6 +20,8 @@ return new class extends Migration
             $table->Integer('product_price');
             $table->string('image1', 100)->nullable();
             $table->string('image2', 100)->nullable();
+            $table->Integer('number');
+            $table->string('status');
             $table->timestamps();
         });
     }

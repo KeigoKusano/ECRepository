@@ -17,6 +17,7 @@ class Product extends Model
         'user_id',
         'image1',
         'image2',
+        'status',
         'created_at',
         'updated_at',
     ];

@@ -10,10 +10,15 @@
         <x-app-layout>
             <x-slot name="header">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                    @foreach ($product_orders as $product_order)
+                        @if(($product_order->user_id==Auth::id()||$product_order->product->user_id==Auth::id())&&
+                            $product_order->chat_room->reciver_id==Auth::id())
+                          {{ __('新着') }}
+                        @endif
+                    @endforeach
                     {{ __('取引画面') }}
                 </h2>
             </x-slot>
-        <h1>Blog Name</h1>
         <div class='products'>
             <form id="orderForm" action="/order/" method="POST">
                 @csrf
@@ -38,14 +43,26 @@
                 @if ($id == 1 && $product_order->order_status == '検討中')
                     @if($product_order->user_id==Auth::id()||$product_order->product->user_id==Auth::id())
                     <div class='product'>
+                        @if($product_order->chat_room->reciver_id==Auth::id())
+                            <P>未読</P>
+                        @endif
                         <P>商品名：{{$product_order->product->product_name }}</P>
                         @if(Auth::id()==$product_order->user_id)
                             <p class='username'>ユーザー名：{{$product_order->product->user->name }}</p>
                         @elseif(Auth::id()==$product_order->product->user_id)
                             <p class='username'>ユーザー名：{{$product_order->user->name }}</p>
                         @endif
-                        <a href="/chats/{{$product_order->chat_roomid}}"><button class="bg-gray-500">
-                            ダイレクトチャットボタン</button></a>
+                        @if($product_order->chat_room->reciver_id==Auth::id())
+                        <form action="/receive/update/{{$product_order->chat_room_id}}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <input type="hidden" name="chat_room[reciver_id]" value=0>
+                                <input class="bg-gray-500" type="submit" value="チャットボタン"/>
+                        </form>
+                        @else
+                        <a href="/chats/{{$product_order->chat_room_id}}"><button class="bg-gray-500">ダイレクトチャットボタン</button></a>
+                        @endif
+                        <a class="bg-gray-500" href="/products/{{ $product_order->product_id }}"><button>商品画面ボタン</button></a>
                         <p>--------------------------------------------------------------------</p>
                         <p><br></p>
                     </div>
@@ -53,6 +70,9 @@
                 @elseif ($id == 2 && $product_order->order_status == '発注一覧')
                     @if($product_order->user_id==Auth::id()||$product_order->product->user_id==Auth::id())
                     <div class='product'>
+                        @if($product_order->chat_room->reciver_id==Auth::id())
+                            <P>未読</P>
+                        @endif
                         <P>商品名：{{$product_order->product->product_name }}</P>
                         @if(Auth::id()==$product_order->user_id)
                             <p class='username'>ユーザー名：{{$product_order->product->user->name }}</p>
@@ -69,16 +89,26 @@
                                         <input type="hidden" name="product_order[order_status]" id="order_status">
                                         <input type="hidden" name="chat_room[user1_id]" id="user1_id">
                                         <input type="hidden" name="chat_room[user2_id]" id="user2_id">
+                                        <input type="hidden" name="chat_room[reciver_id]" id="reciver_id">
+                                        <input type="hidden" name="product[status]" value="売り切れ">
                                         <button class="bg-gray-500" type="button" onclick="buyPost({{ $product_order->product_id }},
                                         {{ $product_order->user_id }})">発注OKボタン</button>
                                     </form>
                                     @break;
                                 @endif
                             @endforeach
-                            
                         @endif
-                        <a href="/chats/{{$product_order->chat_roomid}}"><button class="bg-gray-500">
-                            ダイレクトチャットボタン</button></a>
+                        @if($product_order->chat_room->reciver_id==Auth::id())
+                        <form action="/receive/update/{{$product_order->chat_room_id}}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <input type="hidden" name="chat_room[reciver_id]" value=0>
+                                <input class="bg-gray-500" type="submit" value="チャットボタン"/>
+                        </form>
+                        @else
+                            <a href="/chats/{{$product_order->chat_room_id}}"><button class="bg-gray-500">ダイレクトチャットボタン</button></a>
+                        @endif
+                        <a class="bg-gray-500" href="/products/{{ $product_order->product_id }}"><button>商品画面ボタン</button></a>
                         <p>--------------------------------------------------------------------</p>
                         <p><br></p>
                     </div>
@@ -86,14 +116,26 @@
                 @elseif ($id == 3 && $product_order->order_status == '発注済み')
                     @if($product_order->user_id==Auth::id()||$product_order->product->user_id==Auth::id())
                     <div class='product'>
+                        @if($product_order->chat_room->reciver_id==Auth::id())
+                            <P>未読</P>
+                        @endif
                         <P>商品名：{{$product_order->product->product_name }}</P>
                         @if(Auth::id()==$product_order->user_id)
                             <p class='username'>ユーザー名：{{$product_order->product->user->name }}</p>
                         @elseif(Auth::id()==$product_order->product->user_id)
                             <p class='username'>ユーザー名：{{$product_order->user->name }}</p>
                         @endif
-                        <a href="/chats/{{$product_order->chat_roomid}}"><button class="bg-gray-500">
-                            ダイレクトチャットボタン</button></a>
+                        @if($product_order->chat_room->reciver_id==Auth::id())
+                        <form action="/receive/update/{{$product_order->chat_room_id}}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <input type="hidden" name="chat_room[reciver_id]" value=0>
+                                <input class="bg-gray-500" type="submit" value="チャットボタン"/>
+                        </form>
+                        @else
+                            <a href="/chats/{{$product_order->chat_room_id}}"><button class="bg-gray-500">ダイレクトチャットボタン</button></a>
+                        @endif
+                        <a class="bg-gray-500" href="/products/{{ $product_order->product_id }}"><button>商品画面ボタン</button></a>
                         <p>--------------------------------------------------------------------</p>
                         <p><br></p>
                     </div>
@@ -118,6 +160,7 @@
                     document.getElementById('order_status').value = '発注済み';
                     document.getElementById('user1_id').value = userId;
                     document.getElementById('user2_id').value = userid2;
+                    document.getElementById('reciver_id').value = 0;
                     document.getElementById(`form_buy`).submit();
                 }
             }

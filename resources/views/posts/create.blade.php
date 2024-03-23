@@ -8,10 +8,10 @@
         <x-app-layout>
             <x-slot name="header">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('Create') }}
+                    {{ __('商品登録画面') }}
                 </h2>
             </x-slot>
-        <h1>Blog Name</h1>
+        
         <form action="/products/{{$count}}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="title">
@@ -21,12 +21,12 @@
             </div>
             <div class="image">
                 <h2>画像1</h2>
-                <input type="file" name="image1">
+                <input type="file" name="image1" value="{{ old('product.image1') }}">
                 <p class="title__error" style="color:red">{{ $errors->first('product.image1') }}</p>
             </div>
             <div class="image">
                 <h2>画像2</h2>
-                <input type="file" name="image2">
+                <input type="file" name="image2" value="{{ old('product.image2') }}">
                 <p class="title__error" style="color:red">{{ $errors->first('product.image2') }}</p>
             </div>
             <div class="body">
@@ -47,10 +47,12 @@
                 <p><br></p>
             @endfor
             </div>
+            <input type="hidden" name="product[status]" value="正常">
             <input type="hidden" name="chat_message[message_text]" value="a">
             <input type="hidden" name="serch" value="a">
             <input type="hidden" name="review_user_product[review_amount]" value="a">
             <input type="hidden" name="review_user_product[body]" value=1>
+            <input type="hidden" name="user[delivery]" value="a">
             <p><br></p>
             <input class="bg-gray-500" type="submit" value="保存ボタン"/>
         </form>

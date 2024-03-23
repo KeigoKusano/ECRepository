@@ -12,7 +12,7 @@ class Product_order extends Model
         //'delivery',
         'postage',
         'order_status',
-        'chat_roomid',
+        'chat_room_id',
         'product_id',
         'user_id',
         'created_at',
@@ -25,6 +25,10 @@ class Product_order extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function chat_room()
+    {
+        return $this->belongsTo(Chat_room::class);
     }
     public function getPaginateByLimit()
     {

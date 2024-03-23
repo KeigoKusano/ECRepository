@@ -43,5 +43,6 @@
                 {{ __('Log in') }}
             </x-primary-button>
         </div>
+        <a href="register">register</a>
     </form>
 </x-guest-layout>
