@@ -123,6 +123,7 @@ class ProductController extends Controller
     }
     public function update(PostRequest $request, Product $product)
     {
+        try{
         $input_product = $request['product'];
         if($request->file('image1')){ 
             $image_url1 = Cloudinary::upload($request->file('image1')->getRealPath())->getSecurePath();
@@ -134,6 +135,10 @@ class ProductController extends Controller
         }
         $product->fill($input_product)->save();
         return redirect('/products/show/' . $product->id);
+        }
+        catch(Cloudinary\Api\Exception\BadRequest $e){
+            return redirect('/');
+        }
     }
     public function myupdate(PostRequest $request, User $user)
     {
@@ -143,6 +148,7 @@ class ProductController extends Controller
     }
     public function store(PostRequest $request, Product $product,$count,Tag $tag)
     {
+        try{
         if($count>0){
             $arrays=[];
             $input_tags = $request->tag_array;
@@ -205,6 +211,10 @@ class ProductController extends Controller
             $product->fill($input)->save();
         }
         return redirect('/products/show/' . $product->id);
+        }
+        catch(Cloudinary\Api\Exception\BadRequest $e){
+            return redirect('/');
+        }
     }
     public function status(Request $request,Product $product)
     {

@@ -24,6 +24,11 @@
                                     <input type="text" name="product[product_name]" placeholder="名前" value="{{ $product->product_name }}"/>
                                     <p class="title__error" style="color:red">{{ $errors->first('product.product_name') }}</p>
                                 </div>
+                                <div class="title">
+                                    <h2>販売数</h2>
+                                    <input type="text" name="product[number]" placeholder="数" value="{{ $product->number }}"/>
+                                    <p class="title__error" style="color:red">{{ $errors->first('product.number') }}</p>
+                                </div>
                                 <div class="image">
                                     <h2>画像1</h2>
                                     <input type="file" name="image1">
@@ -51,7 +56,8 @@
                                 <input type="hidden" name="review_user_product[review_amount]" value="a">
                                 <input type="hidden" name="review_user_product[body]" value=1>
                                 <input type="hidden" name="user[delivery]" value="a">
-                                <input class="bg-gray-500" type="submit" value="保存ボタン"/>
+                                <input type="hidden" name="product_order[number]" value=1>
+                                <input class="bg-gray-500 rounded-lg" type="submit" value="保存ボタン"/>
                             </form>
                             <div class="tag">
                                     <h2>タグ:</h2>
@@ -61,7 +67,7 @@
                                             @method('DELETE')
                                             @if($product_tag->product_id==$product->id)
                                                 <P>{{$product_tag->tag->tag}}</P>
-                                                <input class="bg-gray-500" type="submit" onclick="tagDelete()" value="削除ボタン"/>
+                                                <input class="bg-gray-500 rounded-lg" type="submit" onclick="tagDelete()" value="削除ボタン"/>
                                                 <p><br></p>
                                             @endif
                                         </form>
@@ -74,7 +80,7 @@
                                     <input type="hidden" name="product_tag[product_id]" id="product_tag_pid">
                                     <input type="text" name="tag[tag]" placeholder="タグ" value="{{ old('tag.tag') }}"/>
                                     <p class="title__error" style="color:red">{{ $errors->first('tag.tag') }}</p>
-                                    <input class="bg-gray-500" type="button" onclick="tagPush()" value="追加ボタン"/>
+                                    <input class="bg-gray-500 rounded-lg" type="button" onclick="tagPush()" value="追加ボタン"/>
                                     
                                     <input type="hidden" name="product[product_name]" value="a">
                                     <input type="hidden" name="product[product_description]" value="a">
@@ -84,6 +90,8 @@
                                     <input type="hidden" name="review_user_product[review_amount]" value="a">
                                     <input type="hidden" name="review_user_product[body]" value=1>
                                     <input type="hidden" name="user[delivery]" value="a">
+                                    <input type="hidden" name="product[number]" value=1>
+                                    <input type="hidden" name="product_order[number]" value=1>
                             </form>   
                             <script>
                                 function tagPush() {

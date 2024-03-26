@@ -37,18 +37,21 @@
                     <p class="title__error" style="color:red">{{ $errors->first('chat_message.message_text') }}</p>
                     <input type="hidden" name="chat_message[user_id]" id="sender_id">
                     <input type="hidden" name="chat_message[chat_room_id]" id="chat_room_id">
-                    <button class="bg-gray-500" type="button" onclick="chatMessage()">送信ボタン</button>
+                    <button class="bg-gray-500 rounded-lg" type="button" onclick="chatMessage()">送信ボタン</button>
                     
                     <input type="hidden" name="product[product_name]" id="product_name">
                     <input type="hidden" name="product[product_description]" id="product_description">
                     <input type="hidden" name="product[product_price]" id="product_price">
+                    <input type="hidden" name="product[number]" value=1>
                     <input type="hidden" name="serch" value="a">
                     <input type="hidden" name="review_user_product[review_amount]" value="a">
                     <input type="hidden" name="review_user_product[body]" value=1>
                     <input type="hidden" name="user[delivery]" value="a">
+                    <input type="hidden" name="product_order[number]" value=1>
                     
                 </div>
             </form>
+            <a href="/order"><button class="bg-gray-500 rounded-lg">戻るボタン</button></a>
             <script>
             function chatMessage() {
                 'use strict'

@@ -42,15 +42,22 @@
                     <x-nav-link :href="route('order_index')" :active="request()->routeIs('order_index')">
                         @php
                             $product_orders =  App\Models\Product_order::all();
+                            $isbool=false;
                         @endphp
                         @foreach ($product_orders as $product_order)
-                            @if(($product_order->user_id==Auth::id()||$product_order->product->user_id==Auth::id())&&
-                            $product_order->chat_room->reciver_id==Auth::id())
+                            @if($product_order->chat_room->reciver_id==Auth::id())
                                 {{ __('新着') }}
+                                @php
+                                    $isbool=true;
+                                @endphp
                                 @break
                              @endif
                         @endforeach
-                        {{ __('取引画面') }}
+                        @if($isbool==true)
+                            {{ __('取引画面') }}
+                        @else
+                            {{ __('取引画面') }}
+                        @endif
                     </x-nav-link>
                     <x-nav-link :href="route('history')" :active="request()->routeIs('history')">
                         {{ __('履歴') }}

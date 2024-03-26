@@ -14,6 +14,7 @@ class Product extends Model
         'product_name',
         'product_description',
         'product_price',
+        'number',
         'user_id',
         'image1',
         'image2',

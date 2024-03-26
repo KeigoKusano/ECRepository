@@ -19,14 +19,20 @@
                     @if($product_order->order_status=='発注済み'&&($product_order->user_id==Auth::id()||
                         $product_order->product->user_id==Auth::id()))
                         <p>{{$product_order->order_status}} &nbsp;  購入者：{{$product_order->user->name}} &nbsp; 販売者：
-                        {{$product_order->product->user->name}}  商品名：
-                        {{$product_order->product->product_name}}  日時：{{$product_order->updated_at}}</p>
+                        {{$product_order->product->user->name}} &nbsp; 商品名：
+                        {{$product_order->product->product_name}} &nbsp; 商品金額：{{$product_order->product->product_price}}円 &nbsp; 
+                        日時：{{$product_order->updated_at}}</p>
                     @endif
+                    @php
+                        $money=$product_order->product->product_price*$product_order->number;
+                    @endphp
                     @if($product_order->order_status=='発注済み'&&$product_order->user_id==Auth::id())
-                        <p>消費：{{$product_order->product->product_price}}+200円</p>
+                        <p>購入数：{{$product_order->number}}個</p>
+                        <p>消費：{{$money}}+200円</p>
                         <p>--------------------------------------------------------------------</p>
                     @elseif($product_order->order_status=='発注済み'&&$product_order->product->user_id==Auth::id())
-                        <p>利益：{{$product_order->product->product_price}}円</p>
+                        <p>販売数：{{$product_order->number}}個</p>
+                        <p>利益：{{$money}}円</p>
                         <p>--------------------------------------------------------------------</p>
                     @endif
                     <p><br></p>
