@@ -19,6 +19,11 @@
                 <input type="text" name="product[product_name]" placeholder="名前" value="{{ old('product.product_name') }}"/>
                 <p class="title__error" style="color:red">{{ $errors->first('product.product_name') }}</p>
             </div>
+            <div class="title">
+                <h2>販売数</h2>
+                <input type="text" name="product[number]" placeholder="数" value="{{ old('product.number') }}"/>
+                <p class="title__error" style="color:red">{{ $errors->first('product.number') }}</p>
+            </div>
             <div class="image">
                 <h2>画像1</h2>
                 <input type="file" name="image1" value="{{ old('product.image1') }}">
@@ -53,17 +58,18 @@
             <input type="hidden" name="review_user_product[review_amount]" value="a">
             <input type="hidden" name="review_user_product[body]" value=1>
             <input type="hidden" name="user[delivery]" value="a">
+            <input type="hidden" name="product_order[number]" value=1>
             <p><br></p>
-            <input class="bg-gray-500" type="submit" value="保存ボタン"/>
+            <input class="bg-gray-500 rounded-lg" type="submit" value="保存ボタン"/>
         </form>
-        <a href="/products/createPlus/{{$count}}"><button class="bg-gray-500">タグ追加ボタン</button></a>
+        <a href="/products/createPlus/{{$count}}"><button class="bg-gray-500 rounded-lg">タグ追加ボタン</button></a>
         <p><br></p>
         @if($count>0)
-            <a href="/products/createMinus/{{$count}}"><button class="bg-gray-500">タグ削除ボタン</button></a>
+            <a href="/products/createMinus/{{$count}}"><button class="bg-gray-500 rounded-lg">タグ削除ボタン</button></a>
         @endif
         <p><br></p>
         <div class="footer">
-            <a href="/"><button class="bg-gray-500">戻るボタン</button></a>
+            <a href="/"><button class="bg-gray-500 rounded-lg">戻るボタン</button></a>
         </div>
         </x-app-layout>
     </body>

@@ -20,19 +20,20 @@
                 @if($product->user_id==$youruser)
                     <div class='product'>
                     <h2 class='title'>商品名：{{ $product->product_name }}</h2>
+                    <p>販売個数：{{ $product->number }}個</p>
                     <p class='body'>説明：{{ $product->product_description }}</p>
                     <p class='body'>税抜き金額：{{ $product->product_price }}円</p>
                     <p class='body'>更新日時:{{ $product->updated_at }}</p>
                     <p class='body'>ユーザー名：{{ $product->user->name }}<br></p>
                     @if($product->image1)
                     <div>
-                        <img src="{{ $product->image1}}" alt="画像が読み込めません。"/>
+                        <img src="{{ $product->image1}}" alt="画像が読み込めません。" width="100" height="100"/>
                         <p><br></p>
                     </div>
                     @endif
                     @if($product->image2)
                     <div>
-                        <img src="{{ $product->image2}}" alt="画像が読み込めません。"/>
+                        <img src="{{ $product->image2}}" alt="画像が読み込めません。" width="100" height="100"/>
                         <p><br></p>
                     </div>
                     @endif

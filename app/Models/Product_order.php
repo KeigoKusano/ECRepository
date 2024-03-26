@@ -11,6 +11,7 @@ class Product_order extends Model
     protected $fillable = [
         //'delivery',
         'postage',
+        'number',
         'order_status',
         'chat_room_id',
         'product_id',
