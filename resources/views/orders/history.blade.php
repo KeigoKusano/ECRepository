@@ -35,6 +35,21 @@
                         <p>利益：{{$money}}円</p>
                         <p>--------------------------------------------------------------------</p>
                     @endif
+                    @if($product_order->order_status=='削除')
+                        @if($product_order->user_id==Auth::id())
+                            <p>販売者：{{$product_order->product->user->name}} &nbsp; 商品名：
+                            {{$product_order->product->product_name}} &nbsp; 商品金額：{{$product_order->product->product_price}}円 &nbsp; 
+                            日時：{{$product_order->updated_at}}</p>
+                            
+                            <p>取り消し申請が承諾されました。</p>
+                        @else
+                            <p>購入者：{{$product_order->user->name}} &nbsp; 商品名：
+                            {{$product_order->product->product_name}} &nbsp; 商品金額：{{$product_order->product->product_price}}円 &nbsp; 
+                            日時：{{$product_order->updated_at}}</p>
+                           
+                            <p>取り消し申請が承諾しました。</p>
+                        @endif
+                    @endif
                     <p><br></p>
                 </div>
             @endforeach

@@ -58,6 +58,9 @@ Route::controller(Product_orderController::class)->middleware(['auth'])->group(f
     Route::get('/order', 'index')->name('order_index');
     Route::post('/chat','chat_store');
     Route::put('/receive/update/{chat_room}', 'receive_update')->name('update');
+    Route::put('/orders/not/{product_order}','notbuy')->name('notbuy');
+    Route::put('/order/notOK/{product_order}/{product}','delete_notbuy')->name('delete_notbuy');
+    Route::get('/rank', 'rank')->name('rank');
 });
 Route::controller(Review_user_productController::class)->middleware(['auth'])->group(function(){
     Route::post('/review','store')->name('review_store');
