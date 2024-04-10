@@ -39,10 +39,11 @@
                     <x-nav-link :href="route('mypage')" :active="request()->routeIs('mypage')">
                         {{ __('マイページ') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('order_index')" :active="request()->routeIs('order_index')">
+                    <x-nav-link class="{{ request()->routeIs('settings') ? 'active' : ''}}" :href="route('order_index')" :active="request()->routeIs('order_index')">
                         @php
                             $product_orders =  App\Models\Product_order::all();
                             $isbool=false;
+                            $isNot=false;
                         @endphp
                         @foreach ($product_orders as $product_order)
                             @if($product_order->chat_room->reciver_id==Auth::id())
@@ -50,17 +51,25 @@
                                 @php
                                     $isbool=true;
                                 @endphp
-                                @break
+                             @endif
+                             @if($product_order->order_status=='取り消し'&&$product_order->product->user_id==Auth::id())
+                                {{ __('承諾') }}
+                                @php
+                                    $isNot=true;
+                                @endphp
                              @endif
                         @endforeach
-                        @if($isbool==true)
-                            {{ __('取引画面') }}
+                        @if($isbool==true||$isNot==true)
+                            {{ __('赤色取引画面') }}
                         @else
                             {{ __('取引画面') }}
                         @endif
                     </x-nav-link>
                     <x-nav-link :href="route('history')" :active="request()->routeIs('history')">
                         {{ __('履歴') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('rank')" :active="request()->routeIs('rank')">
+                        {{ __('ランキング') }}
                     </x-nav-link>
                 </div>
             </div>

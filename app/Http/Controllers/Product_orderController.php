@@ -14,6 +14,10 @@ use App\Models\User;
 
 class Product_orderController extends Controller
 {
+    public function rank(Product_order $product_order)//,User $user)
+    {
+        return view('orders.rank')->with(['product_orders' => $product_order->getPaginateByLimit()]);
+    }
     public function chat(Chat_room $chat_room,Chat_message $chat_message)//,User $user)
     {
         return view('orders.chat')->with(['chat_room' =>$chat_room,'chat_messages'=>$chat_message->getPaginateByLimit(10)]);//$user->getByChat()
@@ -95,6 +99,21 @@ class Product_orderController extends Controller
         $input = $request['chat_message'];
         $chat_message->fill($input)->save();
         return redirect('/chats/'.$chat_room->id);
+    }
+    public function notbuy(Request $request, Product_order $product_order)
+    {
+        $input3 = $request['product_order'];
+        $product_order->fill($input3)->save();
+        return redirect('/');
+    }
+    public function delete_notbuy(Request $request,Product_order $product_order,Product $product)
+    {
+        $input2 = $request['product_order'];
+        $product_order->fill($input2)->save();
+        $input3 = $request['product'];
+        $product->fill($input3)->save();
+        //$product_order->delete();
+        return redirect('/');
     }
     public function order(Product_order $product_order,$id)//,User $user)
     {
