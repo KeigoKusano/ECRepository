@@ -29,7 +29,7 @@
                 @endif
             @endforeach
             <p><br></p>
-            <form id="chatForm" action="/chat/message/{{$chat_room->id}}" method="POST">
+            <form id="chatForm" action="/chat/message/{{$chat_room->id}}/{{$id}}" method="POST">
                 @csrf
                 <div class="body">
                     <h2>送信メール</h2>
@@ -51,7 +51,8 @@
                     
                 </div>
             </form>
-            <a href="/order"><button class="bg-gray-500 rounded-lg">戻るボタン</button></a>
+            
+            <a href="/order/{{$id}}"><button class="bg-gray-500 rounded-lg">戻るボタン</button></a>
             <script>
             function chatMessage() {
                 'use strict'

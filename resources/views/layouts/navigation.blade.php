@@ -47,16 +47,23 @@
                         @endphp
                         @foreach ($product_orders as $product_order)
                             @if($product_order->chat_room->reciver_id==Auth::id())
-                                {{ __('新着') }}
+                                @if($isbool==false)
+                                    {{ __('新着') }}
+                                @endif
                                 @php
                                     $isbool=true;
                                 @endphp
                              @endif
                              @if($product_order->order_status=='取り消し'&&$product_order->product->user_id==Auth::id())
-                                {{ __('承諾') }}
+                                @if($isNot==false)
+                                    {{ __('承諾') }}
+                                @endif
                                 @php
                                     $isNot=true;
                                 @endphp
+                             @endif
+                             @if($isbool==true&&$isNot==true)
+                                @break
                              @endif
                         @endforeach
                         @if($isbool==true||$isNot==true)

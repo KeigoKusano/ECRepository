@@ -210,7 +210,8 @@ class ProductController extends Controller
             }
             $product->fill($input)->save();
         }
-        return redirect('/products/show/' . $product->id);
+        //return redirect('/products/show/' . $product->id);
+        return redirect('/mypage');
         }
         catch(Cloudinary\Api\Exception\BadRequest $e){
             return redirect('/');
