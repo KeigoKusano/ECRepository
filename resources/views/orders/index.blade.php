@@ -16,16 +16,23 @@
                     @endphp
                     @foreach ($product_orders as $product_order)
                         @if($product_order->chat_room->reciver_id==Auth::id())
-                            {{ __('新着') }}
+                            @if($isbool==true)
+                                {{ __('新着') }}
+                            @endif
                             @php
                                 $isbool=true;
                             @endphp
                         @endif
                         @if($product_order->order_status=='取り消し'&&$product_order->product->user_id==Auth::id())
-                            {{ __('承諾') }}
+                            @if($isNot==true)
+                                {{ __('承諾') }}
+                            @endif
                             @php
                                 $isNot=true;
                             @endphp
+                            @if($isbool==true)
+                                @break
+                            @endif
                         @endif
                     @endforeach
                     @if($isbool==true||$isNot==true)
@@ -36,7 +43,7 @@
                 </h2>
             </x-slot>
         <div class='products'>
-            <form id="orderForm" action="/order/" method="POST">
+            <form id="orderForm" action="/order/" method="GET">
                 @csrf
                 <label for="orders">発注項目選択</label>
                 <select id="orders" name="orders" onchange="changeAction()">
@@ -70,14 +77,14 @@
                             <p class='username'>購入者 ユーザー名：{{$product_order->user->name }}</p>
                         @endif
                         @if($product_order->chat_room->reciver_id==Auth::id())
-                        <form action="/receive/update/{{$product_order->chat_room_id}}" method="POST">
+                        <form action="/receive/update/{{$product_order->chat_room_id}}/{{$id}}" method="POST">
                                 @csrf
                                 @method('PUT')
                                 <input type="hidden" name="chat_room[reciver_id]" value=0>
                                 <input class="bg-gray-500 rounded-lg" type="submit" value="チャットボタン"/>
                         </form>
                         @else
-                        <a href="/chats/{{$product_order->chat_room_id}}"><button class="bg-gray-500 rounded-lg">
+                        <a href="/chats/{{$product_order->chat_room_id}}/{{$id}}"><button class="bg-gray-500 rounded-lg">
                             ダイレクトチャットボタン</button></a>
                         @endif
                         <a class="bg-gray-500 rounded-lg" href="/products/{{ $product_order->product_id }}"><button>商品画面ボタン</button></a>
@@ -173,14 +180,14 @@
                             @endif
                         @endif
                         @if($product_order->chat_room->reciver_id==Auth::id())
-                        <form action="/receive/update/{{$product_order->chat_room_id}}" method="POST">
+                        <form action="/receive/update/{{$product_order->chat_room_id}}/{{$id}}" method="POST">
                                 @csrf
                                 @method('PUT')
                                 <input type="hidden" name="chat_room[reciver_id]" value=0>
                                 <input class="bg-gray-500" type="submit" value="チャットボタン"/>
                         </form>
                         @else
-                            <a href="/chats/{{$product_order->chat_room_id}}"><button class="bg-gray-500 rounded-lg">ダイレクトチャットボタン</button></a>
+                            <a href="/chats/{{$product_order->chat_room_id}}/{{$id}}"><button class="bg-gray-500 rounded-lg">ダイレクトチャットボタン</button></a>
                         @endif
                         <a class="bg-gray-500 rounded-lg" href="/products/{{ $product_order->product_id }}"><button>商品画面ボタン</button></a>
                         <p>--------------------------------------------------------------------</p>
@@ -204,14 +211,14 @@
                             <p class='username'>購入者 ユーザー名：{{$product_order->user->name }}</p>
                         @endif
                         @if($product_order->chat_room->reciver_id==Auth::id())
-                        <form action="/receive/update/{{$product_order->chat_room_id}}" method="POST">
+                        <form action="/receive/update/{{$product_order->chat_room_id}}/{{$id}}" method="POST">
                             @csrf
                             @method('PUT')
                             <input type="hidden" name="chat_room[reciver_id]" value=0>
                             <input class="bg-gray-500" type="submit" value="チャットボタン"/>
                         </form>
                         @else
-                            <a href="/chats/{{$product_order->chat_room_id}}"><button class="bg-gray-500 rounded-lg">
+                            <a href="/chats/{{$product_order->chat_room_id}}/{{$id}}"><button class="bg-gray-500 rounded-lg">
                                 ダイレクトチャットボタン</button></a>
                         @endif
                         <a class="bg-gray-500 rounded-lg" href="/products/{{ $product_order->product_id }}"><button>商品画面ボタン</button></a>
