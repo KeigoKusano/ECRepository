@@ -46,7 +46,7 @@ class User extends Authenticatable
     ];
     public function products()   
     {
-        return $this->hasMany(Product::class);  
+        return $this->belongsTo(Product::class);  
     }
     public function product_orders()   
     {
@@ -60,9 +60,20 @@ class User extends Authenticatable
     {
         return $this->hasMany(Review_user_product::class);  
     }
-    public function getByReview_user_product()
+    /*public function chat_room()
     {
-        return $this->review_user_products()->with('user');
+        return $this->belongsTo(Chat_room::class);
+    }*/
+    public function getByChat()
+    {
+        return $this->chat_room()->with('user');
     }
-    
+    public function chat_message()
+    {
+        return $this->belongsTo(Chat_message::class);
+    }
+    public function getByMessage()
+    {
+        return $this->chat_message()->with('user');
+    }
 }

@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::table('product_orders', function (Blueprint $table) {
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            //$table->foreignId('chat_room_id')->constrained()->onDelete('cascade');
         });
     }
 

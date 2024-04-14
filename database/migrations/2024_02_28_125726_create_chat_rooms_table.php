@@ -13,15 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('chat_rooms', function (Blueprint $table) {
             $table->id();
-            $table->string('product_name');
-            $table->string('product_description');
-            $table->Integer('product_price');
-            $table->string('image1', 100)->nullable();
-            $table->string('image2', 100)->nullable();
-            $table->Integer('number');
-            $table->string('status');
+            //$table->foreignId('user1_id')->constrained('users')->onDelete('cascade');
+            //$table->foreignId('user2_id')->constrained('users')->onDelete('cascade');
+            $table->Integer('user1_id');
+            $table->Integer('user2_id');
+            $table->Integer('reciver_id');
             $table->timestamps();
         });
     }
@@ -33,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('chat_rooms');
     }
 };

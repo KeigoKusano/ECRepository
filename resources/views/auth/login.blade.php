@@ -44,4 +44,5 @@
             </x-primary-button>
         </div>
     </form>
+    <a href="register"><button class="bg-gray-500 rounded-lg">register</button></a>
 </x-guest-layout>

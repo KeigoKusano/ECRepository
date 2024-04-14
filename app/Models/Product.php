@@ -14,9 +14,11 @@ class Product extends Model
         'product_name',
         'product_description',
         'product_price',
+        'number',
         'user_id',
         'image1',
         'image2',
+        'status',
         'created_at',
         'updated_at',
     ];
@@ -26,7 +28,7 @@ class Product extends Model
     }
     public function product_orders()   
     {
-        return $this->hasMany(Product_order::class);  
+        return $this->belongsTo(Product_order::class);  
     }
     public function getPaginateByLimit(int $limit_count = 10)
     {
@@ -36,5 +38,12 @@ class Product extends Model
     public function review_user_products()   
     {
         return $this->hasMany(Review_user_product::class);  
+    }
+    public function tags(){
+        return $this->belongsToMany(Tag::class);
+    }
+    public function getByProduct()
+    {
+        return $this->product_orders()->with('product_order');
     }
 }

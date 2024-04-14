@@ -8,24 +8,75 @@
                     <a href="{{ route('dashboard') }}">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
+                    <a href="{{ route('index') }}">
+                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                    </a>
+                    <a href="{{ route('create') }}">
+                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                    </a>
+                    <a href="{{ route('mypage') }}">
+                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                    </a>
+                    <a href="{{ route('order_index') }}">
+                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                    </a>
+                    <a href="{{ route('history') }}">
+                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                    </a>
                 </div>
-
+                
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     <x-nav-link :href="route('index')" :active="request()->routeIs('index')">
-                        {{ __('Index') }}
+                        {{ __('商品閲覧画面') }}
                     </x-nav-link>
                     <x-nav-link :href="route('create')" :active="request()->routeIs('create')">
-                        {{ __('Create') }}
+                        {{ __('商品登録') }}
                     </x-nav-link>
                     <x-nav-link :href="route('mypage')" :active="request()->routeIs('mypage')">
-                        {{ __('MyPage') }}
+                        {{ __('マイページ') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('order_index')" :active="request()->routeIs('order_index')">
-                        {{ __('取引画面') }}
+                    <x-nav-link class="{{ request()->routeIs('settings') ? 'active' : ''}}" :href="route('order_index')" :active="request()->routeIs('order_index')">
+                        @php
+                            $product_orders =  App\Models\Product_order::all();
+                            $isbool=false;
+                            $isNot=false;
+                        @endphp
+                        @foreach ($product_orders as $product_order)
+                            @if($product_order->chat_room->reciver_id==Auth::id())
+                                @if($isbool==false)
+                                    {{ __('新着') }}
+                                @endif
+                                @php
+                                    $isbool=true;
+                                @endphp
+                             @endif
+                             @if($product_order->order_status=='取り消し'&&$product_order->product->user_id==Auth::id())
+                                @if($isNot==false)
+                                    {{ __('承諾') }}
+                                @endif
+                                @php
+                                    $isNot=true;
+                                @endphp
+                             @endif
+                             @if($isbool==true&&$isNot==true)
+                                @break
+                             @endif
+                        @endforeach
+                        @if($isbool==true||$isNot==true)
+                            {{ __('赤色取引画面') }}
+                        @else
+                            {{ __('取引画面') }}
+                        @endif
+                    </x-nav-link>
+                    <x-nav-link :href="route('history')" :active="request()->routeIs('history')">
+                        {{ __('履歴') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('rank')" :active="request()->routeIs('rank')">
+                        {{ __('ランキング') }}
                     </x-nav-link>
                 </div>
             </div>
