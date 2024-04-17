@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
-        <title>Blog</title>
+        <title>チャット</title>
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
     </head>
@@ -54,19 +54,19 @@
             
             <a href="/order/{{$id}}"><button class="bg-gray-500 rounded-lg">戻るボタン</button></a>
             <script>
-            function chatMessage() {
-                'use strict'
-                var userId = '{{ Auth::user()->id }}';
-                document.getElementById('sender_id').value = userId;
-                document.getElementById('chat_room_id').value = {{$chat_room->id}};
+                function chatMessage() {
+                    'use strict'
+                    var userId = '{{ Auth::user()->id }}';
+                    document.getElementById('sender_id').value = userId;
+                    document.getElementById('chat_room_id').value = {{$chat_room->id}};
                 
-                document.getElementById('product_name').value = 'a';
-                document.getElementById('product_description').value = 'a';
-                document.getElementById('product_price').value = 1;
+                    document.getElementById('product_name').value = 'a';
+                    document.getElementById('product_description').value = 'a';
+                    document.getElementById('product_price').value = 1;
                
-                document.getElementById(`chatForm`).submit();
-            }
-        </script>
+                    document.getElementById(`chatForm`).submit();
+                }
+            </script>
         </div>
         </x-app-layout>
     </body>

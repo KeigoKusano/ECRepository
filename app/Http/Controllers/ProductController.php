@@ -93,7 +93,7 @@ class ProductController extends Controller
         return view('posts.show')->with(['product' => $product,
         'review_user_products'=>$review_user_product->get(),
         'product_tags' => $product_tag->getPaginateByLimit(10),
-        'flag'=>$flag,'chatFlag'=>$chatFlag,'buyFlag'=>$buyFlag]);//$user->getByReview_user_product()]);
+        'flag'=>$flag,'chatFlag'=>$chatFlag,'buyFlag'=>$buyFlag]);
     }
     public function myshow(Product $product,Product_tag $product_tag,Review_user_product $review_user_product)
     {
@@ -102,7 +102,7 @@ class ProductController extends Controller
     }
     public function store_tag(PostRequest $request,Product $product, Tag $tag,Product_tag $product_tag)
     {
-        $tag_tag=Tag::where('tag', $request['tag'])->first();//$request->tag[tag]);
+        $tag_tag=Tag::where('tag', $request['tag'])->first();
         if($tag_tag){
             $product_tag['tag_id']=$tag_tag->id;
             $input_pt = $request['product_tag'];
@@ -210,7 +210,6 @@ class ProductController extends Controller
             }
             $product->fill($input)->save();
         }
-        //return redirect('/products/show/' . $product->id);
         return redirect('/mypage');
         }
         catch(Cloudinary\Api\Exception\BadRequest $e){
@@ -223,24 +222,15 @@ class ProductController extends Controller
         $product->fill($input)->save();
         return redirect('/mypage');
     }
-    /*public function delete(Product $product)
-    {
-        Product_tag::where('product_id', $product->id)->delete();
-        $product->delete();
-        return redirect('/mypage');
-    }*/
     public function delete_tag(Product $product,Tag $tag,Product_tag $product_tags)
     {
         $product_tags=Product_tag::where('tag_id', $tag->id)->get();
         foreach($product_tags as $p){
             if($product->id==$p->product_id){
-                //dd(1);
                 $p->delete();  
                 break;
             }
         }
-        //Product::where('id',$product_tag->id)->delete();          
-        //Product_tag::where('tag_id', $tag->id)->delete();
         $flag=0;
         foreach($product_tags as $p){
             if($p->tag_id==$tag->id&&$p->product_id!=$product->id){
@@ -254,9 +244,3 @@ class ProductController extends Controller
         return redirect('/products/'.$product->id.'/edit');
     }
 }
-/*public function myupdate(Request $request, User $user)
-    {
-        $input = $request['user'];
-        Auth::user()->fill($input)->save();
-        return redirect('/');
-    }*/
