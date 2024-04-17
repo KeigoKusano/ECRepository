@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
-        <title>Blog</title>
+        <title>取引画面</title>
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
     </head>
@@ -163,7 +163,7 @@
                                         <input type="hidden" name="chat_room[user1_id]" id="user1_id">
                                         <input type="hidden" name="chat_room[user2_id]" id="user2_id">
                                         <input type="hidden" name="chat_room[reciver_id]" id="reciver_id">
-                                        <input type="hidden" name="product[status]" value="売り切れ">
+                                        <input type="hidden" name="product[status]" value={{$product_order->product->status}}>
                                         <button class="bg-gray-500 rounded-lg" type="button" onclick="buyPost({{ $product_order->product_id }},
                                         {{ $product_order->user_id }},{{ $product_order->number }})">発注OKボタン</button>
                                     </form>

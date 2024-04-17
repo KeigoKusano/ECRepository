@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Posts</title>
+        <title>商品画面</title>
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
     </head>
@@ -70,7 +70,7 @@
                     ダイレクトチャットボタン</button>
             </form>
             @endif
-            @if($buyFlag==0&&$product->status=='正常')
+            @if($product->status=='正常')
             <form id="form_{{ $product->id }}" action="/orders/{{$product->id}}" method="POST">
                 @csrf
                 <input type="hidden" name="product_order[product_id]" id="product_id">

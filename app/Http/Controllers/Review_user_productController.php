@@ -12,7 +12,6 @@ class Review_user_productController extends Controller
 {
     public function store(PostRequest $request, Review_user_product $review_user_product)
     {
-        //$review_user_product['user_id']=Auth::id();
         $input = $request['review_user_product'];
         $review_user_product->fill($input)->save();
         return redirect('/');
@@ -20,7 +19,6 @@ class Review_user_productController extends Controller
     public function show(Product $product,Review_user_product $review_user_product,User $user)
     {
         return view('posts.show')->with(['product' => $product,
-        //'review_user_product'=> $review_user_product,
-        'review_user_products'=>$review_user_product->getPaginateByLimit(10)]);//$user->getByReview_user_product()]);
+        'review_user_products'=>$review_user_product->getPaginateByLimit(10)]);
     }
 }

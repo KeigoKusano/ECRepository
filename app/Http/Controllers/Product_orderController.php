@@ -14,16 +14,16 @@ use App\Models\User;
 
 class Product_orderController extends Controller
 {
-    public function rank(Product_order $product_order)//,User $user)
+    public function rank(Product_order $product_order)
     {
         return view('orders.rank')->with(['product_orders' => $product_order->getPaginateByLimit()]);
     }
-    public function chat(Chat_room $chat_room,Chat_message $chat_message,$id)//,User $user)
+    public function chat(Chat_room $chat_room,Chat_message $chat_message,$id)
     {
         return view('orders.chat')->with(['chat_room' =>$chat_room,'chat_messages'=>$chat_message->getPaginateByLimit(10)
-            ,'id'=>$id]);//$user->getByChat()
+            ,'id'=>$id]);
     }
-    public function index(Product_order $product_order)//,User $user)
+    public function index(Product_order $product_order)
     {
         $array=[];
         foreach($product_order->get() as $product_order1){
@@ -48,15 +48,13 @@ class Product_orderController extends Controller
             }
         }
         $id=1;
-        return view('orders.index')->with(['product_orders' => $product_order->getPaginateByLimit(),//get(),//getPaginateByLimit(),//$user->getByUser(),
-        'id' => $id,'array'=>$array2]);//,'users'=> $user->get()]);
+        return view('orders.index')->with(['product_orders' => $product_order->getPaginateByLimit(),
+        'id' => $id,'array'=>$array2]);
     }
     public function store(Request $request, Product_order $product_order,Chat_room $chat_room,Product $product)
     {
-        //$product = $request->product['status'];
         $input3 = $request['product'];
         $product->fill($input3)->save();
-        //$product->save();
         $input2 = $request['chat_room'];
         $chat_room->fill($input2)->save();
         $product_order['chat_room_id']=$chat_room->id;
@@ -82,12 +80,6 @@ class Product_orderController extends Controller
         $chat_room->fill($input2)->save();
         return redirect('/chats/'.$chat_room->id.'/'.$id);
     }
-    /*public function chat_update(Request $request,Chat_room $chat_room)
-    {
-        $input2 = $request['chat_room'];
-        $chat_room->fill($input2)->save();
-        return redirect('/chats/'.$chat_room->id);
-    }*/
     public function message_store(PostRequest $request, Chat_message $chat_message,Chat_room $chat_room,$id)
     {
         if($chat_room->user1_id==Auth::id()){
@@ -96,7 +88,6 @@ class Product_orderController extends Controller
         else if($chat_room->user2_id==Auth::id()){
             $chat_room['reciver_id'] = $chat_room->user1_id;
         }
-        //$input2 = $request['chat_room'];
         $chat_room->save();
         
         $input = $request['chat_message'];
@@ -119,7 +110,7 @@ class Product_orderController extends Controller
         $id=2;
         return redirect('/order/'.$id);
     }
-    public function order(Product_order $product_order,$id)//,User $user)
+    public function order(Product_order $product_order,$id)
     {
         $array=[];
         foreach($product_order->get() as $product_order1){
