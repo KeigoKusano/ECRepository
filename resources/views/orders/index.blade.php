@@ -96,7 +96,7 @@
                     @if($product_order->user_id==Auth::id()||$product_order->product->user_id==Auth::id())
                     <div class='product'>
                         @if($product_order->chat_room->reciver_id==Auth::id())
-                            <P>未読</P>
+                            <P class="text-orange-700">未読</P>
                         @endif
                         <P>商品名：{{$product_order->product->product_name }}</P>
                         <P>商品金額：{{$product_order->product->product_price }}円</P>
@@ -198,7 +198,7 @@
                     @if($product_order->user_id==Auth::id()||$product_order->product->user_id==Auth::id())
                     <div class='product'>
                         @if($product_order->chat_room->reciver_id==Auth::id())
-                            <P>未読</P>
+                            <P class="text-orange-700">未読</P>
                         @endif
                         <P>商品名：{{$product_order->product->product_name }}</P>
                         <P>商品金額：{{$product_order->product->product_price }}円</P>
