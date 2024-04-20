@@ -51,6 +51,9 @@
             @endphp
             @foreach ($products as $product)
                 @if($product->user_id==Auth::id()&&$product->status!='削除')
+                    @if($product->status=='売り切れ')
+                        <P class="text-orange-700">売り切れ</P>
+                    @endif
                     <div class='product'>
                     <h2 class='title'>商品名：{{ $product->product_name }}</h2>
                     <p class='title'>販売個数：{{ $product->number }}</p>
@@ -115,7 +118,7 @@
                         </form>
                         @endif
                     @endif
-                     <p>--------------------------------------------------------------------</p>
+                    <p>--------------------------------------------------------------------</p>
                     <br>
                 </div>
                 @endif    

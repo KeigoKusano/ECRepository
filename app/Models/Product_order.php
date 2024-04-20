@@ -34,7 +34,7 @@ class Product_order extends Model
     public function getPaginateByLimit()
     {
         // updated_atで降順に並べたあと、limitで件数制限をかける
-        return $this::with('product')->orderBy('updated_at', 'ASC')->get();
+        return $this::with('product')->orderBy('updated_at', 'DESC')->get();
     }
     
 }
